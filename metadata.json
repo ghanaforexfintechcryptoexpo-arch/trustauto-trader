@@ -1,0 +1,6 @@
+{
+  "name": "Trust Auto Trader - International Wholesale Platform",
+  "description": "Wholesale automotive trading platform and vehicle sourcing command center for Trust Auto Trader in Tema, Ghana and China Export Base.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
