@@ -6,14 +6,15 @@
 import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { VehicleShowcase } from './components/VehicleShowcase';
+import { BusinessShowcase } from './components/BusinessShowcase';
+import { SourceVehicleSection } from './components/SourceVehicleSection';
+import { DealerWholesaleSection } from './components/DealerWholesaleSection';
+import { HowItWorksSection } from './components/HowItWorksSection';
+import { SocialChannelsSection } from './components/SocialChannelsSection';
 import { InventoryFilter } from './components/InventoryFilter';
 import { VehicleCard } from './components/VehicleCard';
 import { VehicleDetailModal } from './components/VehicleDetailModal';
-import { SourceVehicleSection } from './components/SourceVehicleSection';
-import { DealerWholesaleSection } from './components/DealerWholesaleSection';
-import { ChinaExportSection } from './components/ChinaExportSection';
-import { NetworkMovementSection } from './components/NetworkMovementSection';
-import { RecentArrivalsAndSold } from './components/RecentArrivalsAndSold';
 import { TrustLocationSection } from './components/TrustLocationSection';
 import { AdminCenter } from './components/AdminCenter';
 import { Footer } from './components/Footer';
@@ -25,7 +26,7 @@ import { testFirestoreConnection, subscribeToVehicles, submitEnquiryToFirestore 
 
 export default function App() {
   const [currency, setCurrency] = useState<'GHS' | 'USD'>('GHS');
-  const [activeSection, setActiveSection] = useState<string>('inventory');
+  const [activeSection, setActiveSection] = useState<string>('showcase');
 
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
@@ -42,6 +43,10 @@ export default function App() {
 
   // Admin Center modal toggle
   const [adminOpen, setAdminOpen] = useState<boolean>(false);
+
+  const handleSourceRequestWithPrefill = (categoryName: string) => {
+    handleScrollTo('sourcing');
+  };
 
   // Filtering State
   const [filters, setFilters] = useState<VehicleFilterState>({
@@ -213,185 +218,37 @@ export default function App() {
         setCurrency={setCurrency}
       />
 
-      {/* Main Unforgettable Hero Experience */}
+      {/* Hero Section */}
       <Hero
         stats={stats}
-        onExploreInventory={() => handleScrollTo('inventory')}
+        onExploreVehicles={() => handleScrollTo('showcase')}
         onSourceVehicle={() => handleScrollTo('sourcing')}
       />
 
       {/* Main Content Area */}
-      <main className="space-y-12">
+      <main className="space-y-4">
         
-        {/* LIVE INVENTORY DISCOVERY SECTION */}
-        <section id="inventory" className="py-12 max-w-7xl mx-auto px-4 sm:px-8 space-y-8">
-          
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#080809] border border-[#D4AF37] text-[#D4AF37] text-[10px] font-mono font-bold uppercase tracking-widest">
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>DIRECT WHOLESALE ACCESS</span>
-            </div>
-
-            <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter text-white">
-              LIVE VEHICLE <span className="text-[#D4AF37]">INVENTORY</span>
-            </h2>
-
-            <p className="text-slate-400 text-sm font-light max-w-2xl">
-              Explore vehicles currently available through the Trust Auto Trader network across Tema, Ghana and our China export staging base.
-            </p>
-          </div>
-
-          {/* Filtering Panel */}
-          <InventoryFilter
-            filters={filters}
-            setFilters={setFilters}
-            totalCount={stats?.totalVehicles || vehicles.length}
-            filteredCount={vehicles.length}
-            makes={uniqueMakes}
-          />
-
-          {/* Vehicles Grid Display */}
-          {loading ? (
-            <div className="text-center py-20 font-mono text-xs text-[#D4AF37] space-y-3">
-              <div className="w-8 h-8 border-2 border-[#D4AF37] border-t-transparent animate-spin mx-auto" />
-              <div>QUERYING TRUST AUTO TRADER INVENTORY DATABASE...</div>
-            </div>
-          ) : vehicles.length === 0 ? (
-            <div className="space-y-8">
-              {/* Comprehensive Zero Search Results Panel */}
-              <div className="bg-[#080809] border border-[#1A1A1C] p-6 sm:p-10 text-center space-y-6 font-mono relative overflow-hidden">
-                <div className="w-12 h-12 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] flex items-center justify-center mx-auto">
-                  <SearchX className="w-6 h-6" />
-                </div>
-
-                <div className="space-y-2">
-                  <div className="text-white text-base font-bold uppercase tracking-wider">
-                    NO VEHICLES MATCH YOUR EXACT SEARCH FILTERS
-                  </div>
-                  <p className="text-slate-400 text-xs max-w-lg mx-auto font-sans font-light leading-relaxed">
-                    We can source any make, model, or heavy equipment directly through our 5,000m² China export base or global wholesale network in Tema, Ghana.
-                  </p>
-                </div>
-
-                {/* Active Filters Badges */}
-                {activeFilterBadges.length > 0 && (
-                  <div className="space-y-2 pt-2 border-t border-[#1A1A1C] max-w-xl mx-auto">
-                    <span className="text-[10px] text-slate-500 uppercase tracking-widest block">ACTIVE APPLIED FILTERS:</span>
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {activeFilterBadges.map((badge, idx) => (
-                        <span
-                          key={idx}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#121215] border border-[#2A2A30] text-[#D4AF37] text-[11px] font-mono"
-                        >
-                          <span>{badge.label}</span>
-                          <button
-                            onClick={badge.clear}
-                            className="hover:text-white transition-colors cursor-pointer p-0.5"
-                            title="Remove filter"
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
-                  <button
-                    onClick={resetAllFilters}
-                    className="inline-flex items-center gap-2 bg-[#121215] hover:bg-[#1A1A20] text-white border border-[#2A2A30] font-mono font-bold text-xs px-6 py-3.5 uppercase tracking-widest transition-all cursor-pointer"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5 text-[#D4AF37]" />
-                    <span>RESET ALL FILTERS</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleScrollTo('sourcing')}
-                    className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c29f2e] text-black font-mono font-black text-xs px-6 py-3.5 uppercase tracking-widest transition-all cursor-pointer"
-                  >
-                    <Globe2 className="w-4 h-4" />
-                    <span>REQUEST CUSTOM VEHICLE SOURCING</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Recommended Stock Showcase when current filter is 0 */}
-              {allVehicles.length > 0 && (
-                <div className="space-y-4 pt-4 border-t border-[#1A1A1C]">
-                  <div className="flex items-center justify-between font-mono">
-                    <div className="flex items-center gap-2 text-xs font-bold uppercase text-[#F0F0F0]">
-                      <Sparkles className="w-4 h-4 text-[#D4AF37]" />
-                      <span>RECOMMENDED AVAILABLE INVENTORY IN STOCK ({allVehicles.length} TOTAL)</span>
-                    </div>
-                    <button
-                      onClick={resetAllFilters}
-                      className="text-[11px] text-[#D4AF37] hover:underline cursor-pointer uppercase font-bold"
-                    >
-                      VIEW ALL STOCK →
-                    </button>
-                  </div>
-
-                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {allVehicles.slice(0, 4).map(vehicle => (
-                      <VehicleCard
-                        key={vehicle.id}
-                        vehicle={vehicle}
-                        currency={currency}
-                        onSelect={setSelectedVehicle}
-                        onRequestPrice={setWholesalePriceModalVehicle}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {vehicles.map(vehicle => (
-                <VehicleCard
-                  key={vehicle.id}
-                  vehicle={vehicle}
-                  currency={currency}
-                  onSelect={setSelectedVehicle}
-                  onRequestPrice={setWholesalePriceModalVehicle}
-                />
-              ))}
-            </div>
-          )}
-
-        </section>
-
-        {/* RECENT ARRIVALS & SOLD */}
-        <RecentArrivalsAndSold
-          vehicles={allVehicles.length > 0 ? allVehicles : vehicles}
-          currency={currency}
-          onSelectVehicle={setSelectedVehicle}
-          onRequestPrice={setWholesalePriceModalVehicle}
+        {/* 1. VEHICLE SHOWCASE (Aesthetic showcase replacing inventory hero) */}
+        <VehicleShowcase
+          onSourceRequest={handleSourceRequestWithPrefill}
         />
 
-        {/* SOURCE MY VEHICLE SYSTEM */}
+        {/* 2. BUSINESS SHOWCASE (MORE THAN A DEALERSHIP) */}
+        <BusinessShowcase />
+
+        {/* 3. VEHICLE SOURCING (CAN'T FIND THE RIGHT VEHICLE? WE'LL SOURCE IT) */}
         <SourceVehicleSection />
 
-        {/* CHINA EXPORT BASE EXPERIENCE */}
-        <ChinaExportSection
-          onExploreChinaExport={() => {
-            setFilters(prev => ({ ...prev, location: 'CHINA EXPORT' }));
-            handleScrollTo('inventory');
-          }}
-        />
-
-        {/* BUILT FOR DEALERS & FLEETS */}
+        {/* 4. BUILT FOR DEALERS */}
         <DealerWholesaleSection />
 
-        {/* NETWORK LOGISTICS MOVEMENT */}
-        <NetworkMovementSection
-          vehicles={allVehicles.length > 0 ? allVehicles : vehicles}
-          onSelectVehicle={setSelectedVehicle}
-        />
+        {/* 5. HOW IT WORKS */}
+        <HowItWorksSection />
 
-        {/* TEMA LOCATION & TRUST SECTION */}
+        {/* 6. SOCIAL CHANNELS (FOLLOW THE VEHICLES) */}
+        <SocialChannelsSection />
+
+        {/* 7. TEMA LOCATION & INSPECTION YARD */}
         <TrustLocationSection />
 
       </main>

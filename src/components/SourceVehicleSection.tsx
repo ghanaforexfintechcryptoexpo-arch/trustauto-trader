@@ -130,8 +130,8 @@ export const SourceVehicleSection: React.FC = () => {
             <span className="text-[#D4AF37]">WE'LL SOURCE IT.</span>
           </h2>
 
-          <p className="text-slate-400 text-sm font-light">
-            Tell us what you need and our sourcing team can search through our international vehicle network across China, Japan, and Tema Port.
+          <p className="text-slate-300 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed">
+            Tell us the vehicle you need, your preferred specifications and quantity. Our team can help identify suitable sourcing options.
           </p>
         </div>
 

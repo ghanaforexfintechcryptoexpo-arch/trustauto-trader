@@ -57,16 +57,15 @@ export const DealerWholesaleSection: React.FC = () => {
         <div className="text-center max-w-3xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#050505] border border-[#D4AF37] text-[#D4AF37] text-[10px] font-mono font-bold uppercase tracking-widest">
             <Building2 className="w-3.5 h-3.5" />
-            <span>BUILT FOR DEALERS & WHOLESALERS</span>
+            <span>WHOLESALE SUPPLY CHANNELS</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter text-white">
-            YOUR INVENTORY SHOULD<br />
-            <span className="text-[#D4AF37]">NEVER STOP MOVING.</span>
+            BUILT FOR <span className="text-[#D4AF37]">DEALERS.</span>
           </h2>
 
-          <p className="text-slate-400 text-sm font-light">
-            Trust Auto Trader powers vehicle dealers, car rental operators, and corporate fleet buyers with container-level wholesale pricing from China to Tema Port.
+          <p className="text-slate-300 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed">
+            Need multiple vehicles for your dealership? Trust Auto Trader provides access to wholesale vehicle sourcing and international supply channels.
           </p>
         </div>
 

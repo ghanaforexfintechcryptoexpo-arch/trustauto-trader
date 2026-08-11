@@ -42,16 +42,12 @@ export const Header: React.FC<HeaderProps> = ({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF41] opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00FF41]"></span>
               </span>
-              TEMA, GHANA: <span className="text-[#00FF41] font-bold">{stats?.ghanaStockCount || 184} UNITS</span>
+              TEMA, GHANA: <span className="text-[#00FF41] font-bold">OPERATIONAL HUB</span>
             </span>
             <span className="hidden md:inline text-[#1A1A1C]">|</span>
             <span className="hidden md:flex items-center gap-1.5 text-slate-300">
               <Globe2 className="w-3.5 h-3.5 text-[#D4AF37]" />
-              CHINA EXPORT BASE: <span className="text-[#D4AF37] font-bold">{stats?.chinaExportCount || 342} UNITS</span>
-            </span>
-            <span className="hidden lg:inline text-[#1A1A1C]">|</span>
-            <span className="hidden lg:flex items-center gap-1.5 text-[#00FF41]">
-              ACTIVE EXPORTS: <span className="font-bold">22 UNITS IN TRANSIT</span>
+              CHINA EXPORT BASE: <span className="text-[#D4AF37] font-bold">5,000 m² STAGING FACILITY</span>
             </span>
           </div>
 
@@ -122,12 +118,13 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-6 text-[11px] uppercase tracking-widest font-semibold opacity-80">
           {[
-            { id: 'inventory', label: 'LIVE INVENTORY' },
-            { id: 'sourcing', label: 'SOURCING' },
-            { id: 'dealers', label: 'DEALER SERVICES' },
-            { id: 'china-export', label: 'CHINA EXPORT' },
-            { id: 'network', label: 'NETWORK MOVEMENT' },
-            { id: 'location', label: 'TEMA LOCATION' },
+            { id: 'showcase', label: 'VEHICLE SHOWCASE' },
+            { id: 'business', label: 'BUSINESS & SCALE' },
+            { id: 'sourcing', label: 'VEHICLE SOURCING' },
+            { id: 'dealers', label: 'FOR DEALERS' },
+            { id: 'how-it-works', label: 'HOW IT WORKS' },
+            { id: 'social', label: 'FOLLOW US' },
+            { id: 'location', label: 'LOCATION' },
           ].map(item => {
             const isActive = activeSection === item.id;
             return (
@@ -169,11 +166,12 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Mobile Nav Scroll Strip */}
       <div className="lg:hidden bg-[#080809] border-t border-[#1A1A1C] px-4 py-2 overflow-x-auto flex items-center gap-2 text-[10px] font-mono font-bold uppercase tracking-widest scrollbar-none">
         {[
-          { id: 'inventory', label: 'INVENTORY' },
+          { id: 'showcase', label: 'VEHICLES' },
+          { id: 'business', label: 'BUSINESS' },
           { id: 'sourcing', label: 'SOURCING' },
           { id: 'dealers', label: 'DEALERS' },
-          { id: 'china-export', label: 'CHINA EXPORT' },
-          { id: 'network', label: 'LOGISTICS' },
+          { id: 'how-it-works', label: 'HOW IT WORKS' },
+          { id: 'social', label: 'FOLLOW US' },
           { id: 'location', label: 'LOCATION' },
         ].map(item => (
           <button
