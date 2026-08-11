@@ -1196,6 +1196,170 @@ export const initialVehicles: Vehicle[] = [
     },
     createdAt: '2026-08-11T10:51:00Z',
     updatedAt: '2026-08-11T10:51:00Z'
+  },
+  {
+    id: 'veh-030',
+    stockId: 'TA-2024-030',
+    make: 'Xiaomi',
+    model: 'SU7',
+    year: 2024,
+    trim: 'Max Dual-Motor AWD 673HP Electric Super-Sedan',
+    type: 'LUXURY',
+    priceGhs: 690000,
+    priceUsd: 51100,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Aqua Blue Metallic',
+    engine: 'Dual Motor AWD 673 HP (0-100 km/h in 2.78s, 800km Range)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      '800V HyperCharge (510km Range added in 15 mins)',
+      'HyperOS Smart Ecosystem Cockpit',
+      'Cd 0.195 Ultra-Low Aerodynamic Body',
+      'Active Rear Wing & Air Suspension',
+      '23-Speaker Dolby Atmos Surround Audio'
+    ],
+    insight: {
+      bestSuitedFor: 'Tech enthusiasts, luxury sports car collectors, and high-profile executives.',
+      conditionSummary: 'Brand new 0km unit staged at China Export Yard.',
+      availabilityTimeline: 'Container shipping ready from China base.',
+      dealerSuitabilityIndex: 'PRIME EXCLUSIVE',
+      resalePotential: 'Global flagship EV sensation with immense popularity.'
+    },
+    createdAt: '2026-08-11T11:00:00Z',
+    updatedAt: '2026-08-11T11:00:00Z'
+  },
+  {
+    id: 'veh-031',
+    stockId: 'TA-2024-031',
+    make: 'Hongqi',
+    model: 'H9',
+    year: 2024,
+    trim: '3.0T V6 Supercharged Executive Flagship',
+    type: 'LUXURY',
+    priceGhs: 780000,
+    priceUsd: 57700,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'RWD',
+    color: 'Two-Tone Amber Gold & Midnight Black',
+    engine: '3.0L V6 Mechanical Supercharged Engine (283 HP, 400 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Illuminated Presidential Front Waterfall Grille',
+      'Zero-Gravity Rear Executive Reclining Ottoman Seats',
+      'Bose Centerpoint 12-Speaker Audio',
+      'Air Suspension with Continuous Damping Control',
+      '256-Color Dynamic Ambient Interior Lighting'
+    ],
+    insight: {
+      bestSuitedFor: 'Government VIP motorcades, embassy diplomats, and corporate chairmen.',
+      conditionSummary: 'Brand new 0km luxury unit at China Export Yard.',
+      availabilityTimeline: 'Direct export shipping ready upon booking.',
+      dealerSuitabilityIndex: 'HIGH EXCLUSIVE',
+      resalePotential: 'Prestige luxury statement in sub-Saharan Africa.'
+    },
+    createdAt: '2026-08-11T11:05:00Z',
+    updatedAt: '2026-08-11T11:05:00Z'
+  },
+  {
+    id: 'veh-032',
+    stockId: 'TA-2024-032',
+    make: 'GWM',
+    model: 'Tank 300',
+    year: 2024,
+    trim: '2.0T 8AT 4WD Off-Road Conqueror Edition',
+    type: 'SUV',
+    priceGhs: 450000,
+    priceUsd: 33300,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: '4WD',
+    color: 'Cyber Desert Orange',
+    engine: '2.0T Turbocharged Gasoline (227 HP, 387 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Triple Differential Lockers (Front, Center, Rear)',
+      'Tank Turn Function & Crawl Control',
+      '700mm Water Wading Depth Rating',
+      'Factory Underbody Protection Skid Plates',
+      'Dual 12.3-inch Cockpit Displays'
+    ],
+    insight: {
+      bestSuitedFor: 'Extreme 4x4 off-road expeditions, mining site access, and rugged terrain exploration.',
+      conditionSummary: 'Brand new 0km factory unit in China Export Hub.',
+      availabilityTimeline: 'Fast container dispatch assigned.',
+      dealerSuitabilityIndex: 'HIGH DEMAND',
+      resalePotential: 'Enormous popularity among off-road enthusiast buyers.'
+    },
+    createdAt: '2026-08-11T11:10:00Z',
+    updatedAt: '2026-08-11T11:10:00Z'
+  },
+  {
+    id: 'veh-033',
+    stockId: 'TA-2024-033',
+    make: 'BYD',
+    model: 'Seal',
+    year: 2024,
+    trim: 'Excellence AWD 523HP Performance Sport Sedan',
+    type: 'LUXURY',
+    priceGhs: 530000,
+    priceUsd: 39200,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Atlantis Grey Metallic',
+    engine: '82.5kWh Blade Battery AWD 523 HP (0-100km/h in 3.8s)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'CTB (Cell-to-Body) Structural Integration',
+      'iTAC (Intelligent Torque Adaptation Control)',
+      'Dynaudio 12-Speaker Hi-Fi Audio',
+      'HUD Head-Up Display & Panoramic Glass Roof',
+      'VTOL 3.3kW Mobile Power Station'
+    ],
+    insight: {
+      bestSuitedFor: 'Luxury sport driving with ultra-low operating cost.',
+      conditionSummary: 'In stock at Tema Staging Yard.',
+      availabilityTimeline: 'Immediate pickup or delivery in Ghana.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'Prime EV luxury choice.'
+    },
+    createdAt: '2026-08-11T11:15:00Z',
+    updatedAt: '2026-08-11T11:15:00Z'
   }
 ];
 

@@ -102,6 +102,104 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
     description: 'Recognized for stunning futuristic architecture and ultra-reliable Blue Core turbo engines, Changan models deliver top-tier luxury amenities at wholesale import economics.'
   },
   {
+    id: 'li_auto',
+    typeGroup: 'suv',
+    isChineseBrand: true,
+    title: 'LI AUTO (LIXIANG) SMART SUVs',
+    buttonLabel: 'EXPLORE LI AUTO',
+    subtitle: 'Ultra-Luxury Extended-Range (EREV) Smart Family Crossovers',
+    image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Li L9 Ultra Flagship 6-Seater', 'Li L8 Max Executive SUV', 'Li L7 Pro Luxury 5-Seater', 'Li Mega All-Electric MPV (544 HP)'],
+    specsSummary: 'Dual Motor Intelligent 4WD (449 HP, 620 Nm), 1,315km Combined Range (CLTC), Air Suspension, Dual OLED Rear Screens',
+    powertrains: 'Range Extended Electric (EREV), 100% Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'Li Auto is China\'s premier luxury smart family SUV manufacturer. Features ultra-quiet range-extended electric drivetrains that eliminate range anxiety for West African long-distance trips while providing airliner first-class seating.'
+  },
+  {
+    id: 'zeekr',
+    typeGroup: 'ev',
+    isChineseBrand: true,
+    title: 'ZEEKR PREMIUM ELECTRIC RANGE',
+    buttonLabel: 'EXPLORE ZEEKR',
+    subtitle: 'Geely Group\'s High-Performance Luxury EV Division',
+    image: 'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Zeekr 001 Shooting Brake (544 HP, 3.8s 0-100)', 'Zeekr 009 VIP Executive MPV', 'Zeekr X Urban Luxury Crossover', 'Zeekr 007 Performance Sedan (646 HP)'],
+    specsSummary: '800V High-Voltage Silicon Carbide Architecture, CATL Qilin Battery (100 kWh - 140 kWh), Air Suspension, Yamaha Audio',
+    powertrains: '100% Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'Geely\'s ultra-luxury electric brand engineered on the SEA architecture. Sourced with factory warranty certification for discerning private buyers and VIP executive fleets.'
+  },
+  {
+    id: 'xiaomi',
+    typeGroup: 'ev',
+    isChineseBrand: true,
+    title: 'XIAOMI AUTO (SU7 ELECTRIC)',
+    buttonLabel: 'EXPLORE XIAOMI SU7',
+    subtitle: 'Ultra-Fast 673 HP Electric Super-Sedan & HyperOS Connectivity',
+    image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Xiaomi SU7 Max AWD (673 HP, 2.78s 0-100)', 'Xiaomi SU7 Pro Long Range (830km)', 'Xiaomi SU7 Ultra Track Edition', 'Xiaomi SU7 Standard (800V e-Platform)'],
+    specsSummary: '21,000 RPM HyperEngine V6s, 800V HyperCharge (510km in 15 mins), Cd 0.195 Aerodynamic Body, Xiaomi HyperOS Tech',
+    powertrains: '100% Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'Xiaomi\'s breakthrough high-performance EV sedan. Sourced directly from Beijing production staging facilities with complete export documentation and software integration support.'
+  },
+  {
+    id: 'hongqi',
+    typeGroup: 'passenger',
+    isChineseBrand: true,
+    title: 'HONGQI LUXURY AUTOMOTIVE',
+    buttonLabel: 'EXPLORE HONGQI',
+    subtitle: 'China\'s Iconic Flagship Presidential & Executive Brand',
+    image: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Hongqi H9 Executive Flagship Sedan', 'Hongqi E-HS9 VIP SUV (551 HP AWD)', 'Hongqi HS5 Turbo Crossover', 'Hongqi HQ9 Luxury MPV'],
+    specsSummary: '3.0T V6 Mechanical Supercharged (283 HP) / Dual Motor EV, Air Suspension, Executive Massage Recliners',
+    powertrains: 'Turbo Petrol, Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'The legendary official state car of China. Sourced for corporate executives, government officials, and luxury motorcades demanding prestige and opulent interior craftsmanship.'
+  },
+  {
+    id: 'gac',
+    typeGroup: 'suv',
+    isChineseBrand: true,
+    title: 'GAC MOTOR & AION EV',
+    buttonLabel: 'EXPLORE GAC & AION',
+    subtitle: 'GS8 Flagship 7-Seater SUVs & AION Electric Innovation',
+    image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['GAC GS8 2.0T AWD 7-Seater', 'GAC Trumpchi M8 Master MPV', 'GAC AION Y Plus Urban Crossover', 'GAC AION LX Plus (1000km Range)'],
+    specsSummary: '2.0T MegaWave Engine (252 HP, 400 Nm), Aisin 8AT, BorgWarner Smart 4WD, G-CP pilot autonomous system',
+    powertrains: 'Turbo Petrol, HEV Hybrid, Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'GAC Group is renowned for world-class manufacturing quality. We source GS8 7-seater family SUVs and AION electric crossovers with proven durability.'
+  },
+  {
+    id: 'voyah_mhero',
+    typeGroup: 'suv',
+    isChineseBrand: true,
+    title: 'VOYAH & M-HERO LUXURY 4WD',
+    buttonLabel: 'EXPLORE VOYAH & M-HERO',
+    subtitle: 'Dongfeng Luxury EV Division & Extreme Tactical Off-Roaders',
+    image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['M-Hero 917 Tactical 4WD (1,088 HP Quad Motor)', 'Voyah Free AWD Performance SUV (490 HP)', 'Voyah Dreamer Luxury VIP Lounge MPV', 'Voyah Passion Executive Sedan'],
+    specsSummary: '1,088 HP Quad Motor Tank Turn 4WD, 1,000Nm Torque, Adjustable Air Suspension, Night Vision System',
+    powertrains: 'Range Extended (EREV), Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'Extreme performance, military-grade tactical 4x4s and high-luxury executive EVs sourced for specialized security, VIP transport, and off-road expeditions.'
+  },
+  {
+    id: 'aito',
+    typeGroup: 'suv',
+    isChineseBrand: true,
+    title: 'AITO & SERES (HUAWEI INSIDE)',
+    buttonLabel: 'EXPLORE AITO',
+    subtitle: 'Powered by Huawei HarmonyOS Smart Cockpit & ADS 2.0 Driving',
+    image: 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['AITO M9 Flagship 6-Seater SUV (530 HP)', 'AITO M7 Intelligent 6-Seater PHEV', 'AITO M5 Sport Crossover', 'Seres 5 AWD Performance EV'],
+    specsSummary: 'Huawei HarmonyOS Smart Cockpit, Huawei DriveONE Dual Motors, Huawei ADS 2.0 LiDAR Autonomous Driving',
+    powertrains: 'Range Extended (EREV), Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'Featuring Huawei\'s industry-leading software and intelligent driving tech. Sourced through our Guangdong logistics export base.'
+  },
+  {
     id: 'toyota',
     typeGroup: 'passenger',
     title: 'TOYOTA & JAPANESE BRANDS',
@@ -277,7 +375,7 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
           </h2>
 
           <p className="text-slate-400 text-sm font-light leading-relaxed">
-            Visually showcasing our direct China export sourcing strengths across top manufacturers like BYD, Chery, GWM, Geely, Changan as well as Toyota and commercial fleets.
+            Visually showcasing our direct China export sourcing strengths across premier manufacturers like BYD, Chery, GWM, Geely, Changan, Li Auto, Zeekr, Xiaomi Auto, Hongqi, GAC, and heavy commercial fleets.
           </p>
         </div>
 
@@ -296,7 +394,7 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
       <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-[#1A1A1C]">
         {[
           { id: 'all', label: 'ALL VEHICLE TYPES', count: SHOWCASE_ITEMS.length },
-          { id: 'chinese', label: 'CHINESE MANUFACTURERS (BYD, CHERY, GWM, GEELY)', count: SHOWCASE_ITEMS.filter(i => i.isChineseBrand).length },
+          { id: 'chinese', label: 'CHINESE MANUFACTURERS (BYD, CHERY, GWM, GEELY, LI AUTO, ZEEKR, XIAOMI)', count: SHOWCASE_ITEMS.filter(i => i.isChineseBrand).length },
           { id: 'passenger', label: 'PASSENGER & SEDANS', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'passenger').length },
           { id: 'suv', label: 'SUVs & 4x4 OFF-ROAD', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'suv').length },
           { id: 'ev', label: 'ELECTRIC & HYBRID (EV)', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'ev').length },
@@ -347,6 +445,9 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
                   src={item.image}
                   alt={item.title}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80';
+                  }}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#080809] via-transparent to-black/20" />
@@ -461,6 +562,9 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
                 src={selectedCategory.image}
                 alt={selectedCategory.title}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80';
+                }}
                 className="w-full h-full object-cover"
               />
             </div>
