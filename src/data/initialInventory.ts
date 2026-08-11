@@ -909,5 +909,293 @@ export const initialVehicles: Vehicle[] = [
     },
     createdAt: '2026-08-11T10:20:00Z',
     updatedAt: '2026-08-11T10:20:00Z'
+  },
+  {
+    id: 'veh-023',
+    stockId: 'TA-2024-023',
+    make: 'BYD',
+    model: 'Seal',
+    year: 2024,
+    trim: 'AWD Excellence 530km Sport Sedan',
+    type: 'SEDAN',
+    priceGhs: 530000,
+    priceUsd: 39200,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Atlantis Blue',
+    engine: 'Dual Motor AWD Blade Battery 82.5kWh (523 HP, 0-100km/h in 3.8s)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Cell-to-Body (CTB) Blade Battery Technology',
+      '15.6-inch Rotating Intelligent Touchscreen',
+      'HUD Head-Up Display & Dynaudio 12-Speaker Sound',
+      'Panoramic Glass Roof & Heat Pump System',
+      'VTOL Mobile Power Discharge (3.3kW Output)'
+    ],
+    insight: {
+      bestSuitedFor: 'Luxury sport performance enthusiasts and corporate eco-executives.',
+      conditionSummary: 'Brand new 2024 export unit staged at China Export Base.',
+      availabilityTimeline: 'Container shipping ready within 4 business days.',
+      dealerSuitabilityIndex: 'PRIME DEMAND',
+      resalePotential: 'Extremely high demand across EV performance segments.'
+    },
+    createdAt: '2026-08-11T10:30:00Z',
+    updatedAt: '2026-08-11T10:30:00Z'
+  },
+  {
+    id: 'veh-024',
+    stockId: 'TA-2024-024',
+    make: 'BYD',
+    model: 'Han EV',
+    year: 2024,
+    trim: 'Flagship AWD 610km Executive Edition',
+    type: 'LUXURY',
+    priceGhs: 640000,
+    priceUsd: 47400,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Emperor Red Metallic',
+    engine: 'Dual Motor AWD 85.4kWh Blade Battery (517 HP)',
+    location: 'GHANA',
+    status: 'JUST ARRIVED',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'DiSus-C Intelligent Active Suspension',
+      'Brembo High Performance Brake Calipers',
+      'Nappa Leather Reclining Executive Rear Seats',
+      'DiPilot Advanced Driver Assistance',
+      '15.6-inch 8-Core Swivel Infotainment'
+    ],
+    insight: {
+      bestSuitedFor: 'VIP chauffeuring, luxury sedan enthusiasts, and embassy transport.',
+      conditionSummary: 'Fresh arrival direct at Tema Golf City Yard.',
+      availabilityTimeline: 'Available immediately for test drive and payment at Tema facility.',
+      dealerSuitabilityIndex: 'EXCELLENT',
+      resalePotential: 'Top luxury flagship EV status in West Africa.'
+    },
+    createdAt: '2026-08-11T10:35:00Z',
+    updatedAt: '2026-08-11T10:35:00Z'
+  },
+  {
+    id: 'veh-025',
+    stockId: 'TA-2024-025',
+    make: 'BYD',
+    model: 'Atto 3 (Yuan Plus)',
+    year: 2024,
+    trim: 'Extended Range 510km Superior Edition',
+    type: 'SUV',
+    priceGhs: 390000,
+    priceUsd: 28900,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'FWD',
+    color: 'Surfing Blue',
+    engine: '60.48kWh Blade Battery (204 HP, 310 Nm)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'e-Platform 3.0 High Efficiency Architecture',
+      'Panoramic Power Sunroof with Anti-Pinch',
+      '12.8-inch Adaptive Rotating Touchscreen',
+      'Gym-Inspired Interior Design Accents',
+      'Level 2 ADAS Safety Suite'
+    ],
+    insight: {
+      bestSuitedFor: 'Family daily urban commutes and fleet management.',
+      conditionSummary: 'Pristine 0km unit in stock at Tema Yard.',
+      availabilityTimeline: 'Immediate pickup at Tema Yard.',
+      dealerSuitabilityIndex: 'VERY HIGH',
+      resalePotential: 'Fastest selling compact EV SUV in global markets.'
+    },
+    createdAt: '2026-08-11T10:40:00Z',
+    updatedAt: '2026-08-11T10:40:00Z'
+  },
+  {
+    id: 'veh-026',
+    stockId: 'TA-2024-026',
+    make: 'BYD',
+    model: 'Dolphin',
+    year: 2024,
+    trim: '401km Extended Range Fashion Edition',
+    type: 'HATCHBACK',
+    priceGhs: 275000,
+    priceUsd: 20300,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'FWD',
+    color: 'Maldive Purple / Gray Two-Tone',
+    engine: '44.9kWh Ultra-Safe Blade Battery (177 HP)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Ocean Aesthetic Design',
+      '360 HD Panoramic Camera',
+      'Smart Keyless Smartphone NFC',
+      '12.8-inch Swivel Touchscreen',
+      'Fast DC Charging (30%-80% in 30 mins)'
+    ],
+    insight: {
+      bestSuitedFor: 'Compact urban commuting, rideshare fleets, and young professionals.',
+      conditionSummary: 'Brand new stock ready at China Export Yard.',
+      availabilityTimeline: 'Quick shipping via RoRo or container.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'Unbeatable entry-level price point and high volume turn.'
+    },
+    createdAt: '2026-08-11T10:45:00Z',
+    updatedAt: '2026-08-11T10:45:00Z'
+  },
+  {
+    id: 'veh-027',
+    stockId: 'TA-2024-027',
+    make: 'Zeekr',
+    model: '001',
+    year: 2024,
+    trim: '100kWh YOU Edition Dual-Motor AWD Shooting Brake',
+    type: 'LUXURY',
+    priceGhs: 780000,
+    priceUsd: 57800,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'ELECTRIC',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Electric Blue Pearl',
+    engine: '100kWh CATL Qilin Battery Dual Motor (544 HP, 768 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Air Suspension with Continuous Damping Control',
+      'Yamaha 14-Speaker Surround Sound System',
+      'Automatic Frameless Electric Suction Doors',
+      '15.4-inch Floating Screen & 14.7-inch AR-HUD',
+      '800V Ultra-Fast Charging Architecture'
+    ],
+    insight: {
+      bestSuitedFor: 'High-net-worth tech executives looking for hyper-EV performance and shooting brake luxury.',
+      conditionSummary: 'Brand new 0km unit staged at China Export Yard.',
+      availabilityTimeline: 'Direct shipment available inside 18 days.',
+      dealerSuitabilityIndex: 'EXCELLENT',
+      resalePotential: 'Trending luxury EV icon in international markets.'
+    },
+    createdAt: '2026-08-11T10:48:00Z',
+    updatedAt: '2026-08-11T10:48:00Z'
+  },
+  {
+    id: 'veh-028',
+    stockId: 'TA-2024-028',
+    make: 'Li Auto',
+    model: 'L9',
+    year: 2024,
+    trim: 'Ultra Max Range-Extended Flagship 6-Seater SUV',
+    type: 'LUXURY',
+    priceGhs: 920000,
+    priceUsd: 68100,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'HYBRID',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Gold Sand Metallic',
+    engine: '44.5kWh Battery + 1.5T Range Extender (1,315km Combined Range, 449 HP)',
+    location: 'CHINA EXPORT',
+    status: 'COMING SOON',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Dual 15.7-inch OLED Center & Co-Pilot Screens',
+      '15.7-inch Rear Passenger Ceiling Cinema Display',
+      'SPA-Grade 10-Point Massage Executive Seats',
+      'Hot & Cold Refrigerator in Center Console',
+      'Li Magic Carpet Air Suspension Max'
+    ],
+    insight: {
+      bestSuitedFor: 'Ultra-luxury family long-distance travel without battery range anxiety.',
+      conditionSummary: 'Brand new unit staging in China Export Hub.',
+      availabilityTimeline: 'Shipping container booking assigned.',
+      dealerSuitabilityIndex: 'VERY HIGH',
+      resalePotential: 'The benchmark luxury family SUV in China.'
+    },
+    createdAt: '2026-08-11T10:50:00Z',
+    updatedAt: '2026-08-11T10:50:00Z'
+  },
+  {
+    id: 'veh-029',
+    stockId: 'TA-2024-029',
+    make: 'Chery',
+    model: 'Tiggo 8 Pro Max',
+    year: 2024,
+    trim: '2.0TGDI 7DCT AWD 7-Seater Executive',
+    type: 'SUV',
+    priceGhs: 420000,
+    priceUsd: 31100,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Rhine Blue Metallic',
+    engine: '2.0L TGDI Turbocharged Gasoline (254 HP, 390 Nm)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Dual 12.3-inch Curved HD Cockpit Screens',
+      'Sony 10-Speaker Audio System',
+      'AWD Smart All-Terrain System',
+      'Voice Command Control System',
+      'Panoramic Sunroof & Ambient Lighting'
+    ],
+    insight: {
+      bestSuitedFor: 'Large families and corporate fleet managers needing 7 seats and luxury standard equipment.',
+      conditionSummary: 'In stock at Tema Golf City Yard.',
+      availabilityTimeline: 'Immediate delivery in Ghana.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'High resale demand in West Africa.'
+    },
+    createdAt: '2026-08-11T10:51:00Z',
+    updatedAt: '2026-08-11T10:51:00Z'
   }
 ];
+

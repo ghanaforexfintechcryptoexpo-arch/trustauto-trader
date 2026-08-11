@@ -93,7 +93,22 @@ function ensureDbExists(): DatabaseSchema {
   try {
     const raw = fs.readFileSync(DB_FILE, 'utf-8');
     const parsed = JSON.parse(raw);
-    if (!parsed.vehicles) parsed.vehicles = initialVehicles;
+    if (!parsed.vehicles || !Array.isArray(parsed.vehicles)) {
+      parsed.vehicles = initialVehicles;
+    } else {
+      // Merge missing vehicles from initialVehicles by ID
+      const existingIds = new Set(parsed.vehicles.map((v: Vehicle) => v.id));
+      let addedCount = 0;
+      for (const initVeh of initialVehicles) {
+        if (!existingIds.has(initVeh.id)) {
+          parsed.vehicles.push(initVeh);
+          addedCount++;
+        }
+      }
+      if (addedCount > 0) {
+        fs.writeFileSync(DB_FILE, JSON.stringify(parsed, null, 2), 'utf-8');
+      }
+    }
     if (!parsed.sourcingRequests) parsed.sourcingRequests = [];
     if (!parsed.dealerRequests) parsed.dealerRequests = [];
     if (!parsed.enquiries) parsed.enquiries = [];

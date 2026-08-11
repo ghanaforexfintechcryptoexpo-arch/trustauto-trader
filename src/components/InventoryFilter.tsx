@@ -153,6 +153,62 @@ export const InventoryFilter: React.FC<InventoryFilterProps> = ({
           </button>
         </div>
 
+        {/* Quick Brand & Special Focus Chips */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-t border-[#1A1A1C] pt-3">
+          <span className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest whitespace-nowrap mr-1">
+            FEATURED BRANDS:
+          </span>
+
+          <button
+            onClick={() => setFilters(prev => ({ ...prev, make: 'BYD', search: '' }))}
+            className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-mono font-black uppercase tracking-wider transition-all flex items-center gap-1.5 border cursor-pointer ${
+              filters.make === 'BYD'
+                ? 'bg-[#D4AF37] text-black border-[#D4AF37]'
+                : 'bg-[#121215] border-[#2A2A30] text-[#D4AF37] hover:border-[#D4AF37]'
+            }`}
+          >
+            <span>⚡ BYD CARS</span>
+            <span className="bg-black/20 text-current px-1 py-0.2 text-[9px]">4 MODELS</span>
+          </button>
+
+          <button
+            onClick={() => setFilters(prev => ({ ...prev, fuel: 'ELECTRIC', search: '' }))}
+            className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 border cursor-pointer ${
+              filters.fuel === 'ELECTRIC'
+                ? 'bg-[#00FF41] text-black border-[#00FF41] font-black'
+                : 'bg-[#121215] border-[#1A1A1C] text-[#00FF41] hover:border-[#00FF41]'
+            }`}
+          >
+            <span>🔋 ELECTRIC / EV</span>
+          </button>
+
+          <button
+            onClick={() => setFilters(prev => ({ ...prev, location: 'CHINA EXPORT', search: '' }))}
+            className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-wider transition-all flex items-center gap-1 border cursor-pointer ${
+              filters.location === 'CHINA EXPORT'
+                ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-black'
+                : 'bg-[#121215] border-[#1A1A1C] text-slate-300 hover:text-white hover:border-[#D4AF37]'
+            }`}
+          >
+            <Globe2 className="w-3 h-3 text-[#D4AF37]" />
+            <span>🇨🇳 CHINA EXPORT BASE</span>
+          </button>
+
+          {['Geely', 'Changan', 'Jetour', 'GWM', 'GAC', 'Zeekr', 'Li Auto', 'Chery', 'FAW'].map(brand => (
+            <button
+              key={brand}
+              onClick={() => setFilters(prev => ({ ...prev, make: brand, search: '' }))}
+              className={`whitespace-nowrap px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider transition-all border cursor-pointer ${
+                filters.make === brand
+                  ? 'bg-white text-black border-white'
+                  : 'bg-[#050505] border-[#1A1A1C] text-slate-400 hover:text-white'
+              }`}
+            >
+              {brand}
+            </button>
+          ))}
+        </div>
+
         {/* Quick Category Chips */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-2 scrollbar-none border-t border-[#1A1A1C]">
           {categories.map(cat => (
