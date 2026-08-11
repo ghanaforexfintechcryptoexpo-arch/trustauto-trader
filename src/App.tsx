@@ -19,7 +19,7 @@ import { AdminCenter } from './components/AdminCenter';
 import { Footer } from './components/Footer';
 
 import { Vehicle, AdminStats, VehicleFilterState } from './types';
-import { MessageSquare, Send, X, CheckCircle2, ShieldCheck, PhoneCall } from 'lucide-react';
+import { MessageSquare, Send, X, CheckCircle2, ShieldCheck, PhoneCall, RotateCcw, SearchX, Sparkles, Globe2 } from 'lucide-react';
 import { formatGhs, formatUsd, getWhatsAppVehicleLink } from './utils/formatters';
 import { testFirestoreConnection, subscribeToVehicles, submitEnquiryToFirestore } from './lib/firebase';
 
@@ -29,6 +29,7 @@ export default function App() {
 
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+  const [allVehicles, setAllVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   // Selected Vehicle for inspection detail view
@@ -59,6 +60,24 @@ export default function App() {
     sortBy: 'newest'
   });
 
+  const resetAllFilters = () => {
+    setFilters({
+      search: '',
+      make: 'ALL',
+      type: 'ALL',
+      location: 'ALL',
+      status: 'ALL',
+      minYear: '',
+      maxYear: '',
+      minPrice: '',
+      maxPrice: '',
+      fuel: 'ALL',
+      transmission: 'ALL',
+      condition: 'ALL',
+      sortBy: 'newest'
+    });
+  };
+
   // Fetch Vehicles & Stats from Backend Express API
   const fetchInventory = async () => {
     setLoading(true);
@@ -85,6 +104,9 @@ export default function App() {
 
       if (resVehicles.success) {
         setVehicles(resVehicles.data);
+        if (allVehicles.length === 0 || (!filters.search && filters.make === 'ALL' && filters.type === 'ALL' && filters.location === 'ALL')) {
+          setAllVehicles(resVehicles.data);
+        }
       }
       if (resStats.success) {
         setStats(resStats.data);
@@ -98,6 +120,13 @@ export default function App() {
 
   useEffect(() => {
     testFirestoreConnection();
+    // Fetch initial complete list of vehicles for recommendation fallback
+    fetch('/api/vehicles')
+      .then(r => r.json())
+      .then(res => {
+        if (res.success && res.data) setAllVehicles(res.data);
+      })
+      .catch(() => {});
   }, []);
 
   useEffect(() => {
@@ -105,7 +134,23 @@ export default function App() {
   }, [filters]);
 
   // Unique list of vehicle makes for filter dropdown
-  const uniqueMakes = Array.from(new Set(vehicles.map(v => v.make))).sort();
+  const uniqueMakes = Array.from(new Set((allVehicles.length > 0 ? allVehicles : vehicles).map(v => v.make))).sort();
+
+  // Active Filter Badges list
+  const activeFilterBadges = [
+    filters.search ? { label: `Search: "${filters.search}"`, clear: () => setFilters(p => ({ ...p, search: '' })) } : null,
+    filters.make !== 'ALL' ? { label: `Make: ${filters.make}`, clear: () => setFilters(p => ({ ...p, make: 'ALL' })) } : null,
+    filters.type !== 'ALL' ? { label: `Type: ${filters.type}`, clear: () => setFilters(p => ({ ...p, type: 'ALL' })) } : null,
+    filters.location !== 'ALL' ? { label: `Location: ${filters.location}`, clear: () => setFilters(p => ({ ...p, location: 'ALL' })) } : null,
+    filters.status !== 'ALL' ? { label: `Status: ${filters.status}`, clear: () => setFilters(p => ({ ...p, status: 'ALL' })) } : null,
+    filters.fuel !== 'ALL' ? { label: `Fuel: ${filters.fuel}`, clear: () => setFilters(p => ({ ...p, fuel: 'ALL' })) } : null,
+    filters.transmission !== 'ALL' ? { label: `Transmission: ${filters.transmission}`, clear: () => setFilters(p => ({ ...p, transmission: 'ALL' })) } : null,
+    filters.condition !== 'ALL' ? { label: `Condition: ${filters.condition}`, clear: () => setFilters(p => ({ ...p, condition: 'ALL' })) } : null,
+    filters.minYear ? { label: `Min Year: ${filters.minYear}`, clear: () => setFilters(p => ({ ...p, minYear: '' })) } : null,
+    filters.maxYear ? { label: `Max Year: ${filters.maxYear}`, clear: () => setFilters(p => ({ ...p, maxYear: '' })) } : null,
+    filters.minPrice ? { label: `Min Price: GHS ${filters.minPrice}`, clear: () => setFilters(p => ({ ...p, minPrice: '' })) } : null,
+    filters.maxPrice ? { label: `Max Price: GHS ${filters.maxPrice}`, clear: () => setFilters(p => ({ ...p, maxPrice: '' })) } : null,
+  ].filter(Boolean) as { label: string; clear: () => void }[];
 
   // Handle Wholesale Price Request Submit
   const handlePriceInquirySubmit = async (e: React.FormEvent) => {
@@ -212,19 +257,95 @@ export default function App() {
               <div>QUERYING TRUST AUTO TRADER INVENTORY DATABASE...</div>
             </div>
           ) : vehicles.length === 0 ? (
-            <div className="text-center py-16 bg-[#080809] border border-[#1A1A1C] p-8 space-y-4 font-mono">
-              <div className="text-slate-400 text-xs font-bold uppercase tracking-wider">
-                NO VEHICLES MATCH YOUR EXACT SEARCH FILTERS.
+            <div className="space-y-8">
+              {/* Comprehensive Zero Search Results Panel */}
+              <div className="bg-[#080809] border border-[#1A1A1C] p-6 sm:p-10 text-center space-y-6 font-mono relative overflow-hidden">
+                <div className="w-12 h-12 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37] flex items-center justify-center mx-auto">
+                  <SearchX className="w-6 h-6" />
+                </div>
+
+                <div className="space-y-2">
+                  <div className="text-white text-base font-bold uppercase tracking-wider">
+                    NO VEHICLES MATCH YOUR EXACT SEARCH FILTERS
+                  </div>
+                  <p className="text-slate-400 text-xs max-w-lg mx-auto font-sans font-light leading-relaxed">
+                    We can source any make, model, or heavy equipment directly through our 5,000m² China export base or global wholesale network in Tema, Ghana.
+                  </p>
+                </div>
+
+                {/* Active Filters Badges */}
+                {activeFilterBadges.length > 0 && (
+                  <div className="space-y-2 pt-2 border-t border-[#1A1A1C] max-w-xl mx-auto">
+                    <span className="text-[10px] text-slate-500 uppercase tracking-widest block">ACTIVE APPLIED FILTERS:</span>
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {activeFilterBadges.map((badge, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#121215] border border-[#2A2A30] text-[#D4AF37] text-[11px] font-mono"
+                        >
+                          <span>{badge.label}</span>
+                          <button
+                            onClick={badge.clear}
+                            className="hover:text-white transition-colors cursor-pointer p-0.5"
+                            title="Remove filter"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap items-center justify-center gap-4 pt-3">
+                  <button
+                    onClick={resetAllFilters}
+                    className="inline-flex items-center gap-2 bg-[#121215] hover:bg-[#1A1A20] text-white border border-[#2A2A30] font-mono font-bold text-xs px-6 py-3.5 uppercase tracking-widest transition-all cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 text-[#D4AF37]" />
+                    <span>RESET ALL FILTERS</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleScrollTo('sourcing')}
+                    className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#c29f2e] text-black font-mono font-black text-xs px-6 py-3.5 uppercase tracking-widest transition-all cursor-pointer"
+                  >
+                    <Globe2 className="w-4 h-4" />
+                    <span>REQUEST CUSTOM VEHICLE SOURCING</span>
+                  </button>
+                </div>
               </div>
-              <p className="text-slate-500 text-xs max-w-md mx-auto font-sans font-light">
-                We can source any make or model through our 5,000m² China export base or global network.
-              </p>
-              <button
-                onClick={() => handleScrollTo('sourcing')}
-                className="bg-[#D4AF37] hover:bg-[#c29f2e] text-black font-black text-xs px-6 py-3 uppercase tracking-widest transition-colors cursor-pointer"
-              >
-                REQUEST CUSTOM VEHICLE SOURCING
-              </button>
+
+              {/* Recommended Stock Showcase when current filter is 0 */}
+              {allVehicles.length > 0 && (
+                <div className="space-y-4 pt-4 border-t border-[#1A1A1C]">
+                  <div className="flex items-center justify-between font-mono">
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase text-[#F0F0F0]">
+                      <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                      <span>RECOMMENDED AVAILABLE INVENTORY IN STOCK ({allVehicles.length} TOTAL)</span>
+                    </div>
+                    <button
+                      onClick={resetAllFilters}
+                      className="text-[11px] text-[#D4AF37] hover:underline cursor-pointer uppercase font-bold"
+                    >
+                      VIEW ALL STOCK →
+                    </button>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {allVehicles.slice(0, 4).map(vehicle => (
+                      <VehicleCard
+                        key={vehicle.id}
+                        vehicle={vehicle}
+                        currency={currency}
+                        onSelect={setSelectedVehicle}
+                        onRequestPrice={setWholesalePriceModalVehicle}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -244,7 +365,7 @@ export default function App() {
 
         {/* RECENT ARRIVALS & SOLD */}
         <RecentArrivalsAndSold
-          vehicles={vehicles}
+          vehicles={allVehicles.length > 0 ? allVehicles : vehicles}
           currency={currency}
           onSelectVehicle={setSelectedVehicle}
           onRequestPrice={setWholesalePriceModalVehicle}
@@ -266,7 +387,7 @@ export default function App() {
 
         {/* NETWORK LOGISTICS MOVEMENT */}
         <NetworkMovementSection
-          vehicles={vehicles}
+          vehicles={allVehicles.length > 0 ? allVehicles : vehicles}
           onSelectVehicle={setSelectedVehicle}
         />
 

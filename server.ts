@@ -146,6 +146,13 @@ app.get('/api/vehicles', (req, res) => {
       v.stockId.toLowerCase().includes(search) ||
       v.trim.toLowerCase().includes(search) ||
       v.engine.toLowerCase().includes(search) ||
+      v.type.toLowerCase().includes(search) ||
+      v.location.toLowerCase().includes(search) ||
+      v.fuel.toLowerCase().includes(search) ||
+      v.color.toLowerCase().includes(search) ||
+      v.year.toString().includes(search) ||
+      v.condition.toLowerCase().includes(search) ||
+      v.drivetrain.toLowerCase().includes(search) ||
       v.features.some(f => f.toLowerCase().includes(search))
     );
   }
