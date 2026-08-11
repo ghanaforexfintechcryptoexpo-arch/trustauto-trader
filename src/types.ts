@@ -6,24 +6,49 @@ export type VehicleType =
   | 'VAN' 
   | 'TRUCK' 
   | 'LUXURY' 
-  | 'COMMERCIAL';
+  | 'COMMERCIAL'
+  | string;
 
-export type VehicleCondition = 'NEW' | 'USED' | 'CERTIFIED RECONDITIONED';
+export type VehicleCondition = 'NEW' | 'USED' | 'CERTIFIED RECONDITIONED' | string;
 
-export type FuelType = 'PETROL' | 'DIESEL' | 'HYBRID' | 'ELECTRIC';
+export type FuelType = 'PETROL' | 'DIESEL' | 'HYBRID' | 'ELECTRIC' | string;
 
-export type TransmissionType = 'AUTOMATIC' | 'MANUAL';
+export type TransmissionType = 'AUTOMATIC' | 'MANUAL' | string;
 
-export type LocationType = 'GHANA' | 'CHINA EXPORT';
+export type LocationType = 'GHANA' | 'CHINA EXPORT' | string;
 
-export type VehicleStatus = 'AVAILABLE' | 'JUST ARRIVED' | 'RESERVED' | 'SOLD' | 'COMING SOON';
+export type VehicleStatus = 
+  | 'draft' 
+  | 'showcase' 
+  | 'available' 
+  | 'reserved' 
+  | 'sold' 
+  | 'coming_soon'
+  | 'DRAFT'
+  | 'SHOWCASE'
+  | 'AVAILABLE'
+  | 'RESERVED'
+  | 'SOLD'
+  | 'COMING_SOON'
+  | 'JUST ARRIVED'
+  | 'COMING SOON'
+  | (string & {});
+
+export interface VehicleImage {
+  id: string;
+  vehicleId?: string;
+  imageUrl: string;
+  sortOrder: number;
+  altText?: string;
+  createdAt?: string;
+}
 
 export interface VehicleInsight {
-  bestSuitedFor: string;
-  conditionSummary: string;
-  availabilityTimeline: string;
-  dealerSuitabilityIndex: 'HIGH' | 'EXCELLENT' | 'VERY HIGH' | 'PRIME DEMAND';
-  resalePotential: string;
+  bestSuitedFor?: string;
+  conditionSummary?: string;
+  availabilityTimeline?: string;
+  dealerSuitabilityIndex?: string;
+  resalePotential?: string;
 }
 
 export interface Vehicle {
@@ -32,24 +57,32 @@ export interface Vehicle {
   make: string;
   model: string;
   year: number;
-  trim: string;
-  type: VehicleType;
-  priceGhs: number;
-  priceUsd: number;
+  slug?: string;
+  trim?: string;
+  type?: VehicleType;
+  bodyType?: string;
+  priceGhs?: number | null;
+  priceUsd?: number | null;
+  price?: number | null;
+  currency?: string;
   priceOnRequest?: boolean;
-  mileageKm: number;
-  condition: VehicleCondition;
-  fuel: FuelType;
-  transmission: TransmissionType;
-  drivetrain: 'AWD' | '4WD' | 'FWD' | 'RWD';
-  color: string;
-  engine: string;
-  location: LocationType;
+  mileageKm?: number;
+  mileage?: number;
+  condition?: VehicleCondition;
+  fuel?: FuelType;
+  fuelType?: FuelType;
+  transmission?: TransmissionType;
+  drivetrain?: 'AWD' | '4WD' | 'FWD' | 'RWD' | string;
+  color?: string;
+  engine?: string;
+  location?: LocationType;
+  description?: string;
   status: VehicleStatus;
   featured?: boolean;
-  images: string[];
-  features: string[];
-  insight: VehicleInsight;
+  images: (string | VehicleImage)[];
+  vehicleImages?: VehicleImage[];
+  features?: string[];
+  insight?: VehicleInsight;
   createdAt: string;
   updatedAt: string;
 }
@@ -112,8 +145,8 @@ export interface VehicleFilterState {
   search: string;
   make: string;
   type: string;
-  location: string; // 'ALL' | 'GHANA' | 'CHINA EXPORT'
-  status: string;   // 'ALL' | 'AVAILABLE' | 'JUST ARRIVED' | 'RESERVED' | 'SOLD' | 'COMING SOON'
+  location: string;
+  status: string;
   minYear: string;
   maxYear: string;
   minPrice: string;
@@ -126,13 +159,15 @@ export interface VehicleFilterState {
 
 export interface AdminStats {
   totalVehicles: number;
-  ghanaStockCount: number;
-  chinaExportCount: number;
   availableCount: number;
-  justArrivedCount: number;
+  showcaseCount: number;
   reservedCount: number;
   soldCount: number;
-  sourcingRequestsCount: number;
-  dealerRequestsCount: number;
-  enquiriesCount: number;
+  comingSoonCount: number;
+  draftCount?: number;
+  ghanaStockCount?: number;
+  chinaExportCount?: number;
+  sourcingRequestsCount?: number;
+  dealerRequestsCount?: number;
+  enquiriesCount?: number;
 }

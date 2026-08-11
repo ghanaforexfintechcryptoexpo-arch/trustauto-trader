@@ -7,34 +7,39 @@ import React, { useState, useEffect } from 'react';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { VehicleShowcase } from './components/VehicleShowcase';
+import { FeaturedVehiclesSection } from './components/FeaturedVehiclesSection';
 import { BusinessShowcase } from './components/BusinessShowcase';
 import { SourceVehicleSection } from './components/SourceVehicleSection';
 import { DealerWholesaleSection } from './components/DealerWholesaleSection';
 import { HowItWorksSection } from './components/HowItWorksSection';
 import { SocialChannelsSection } from './components/SocialChannelsSection';
-import { InventoryFilter } from './components/InventoryFilter';
-import { VehicleCard } from './components/VehicleCard';
-import { VehicleDetailModal } from './components/VehicleDetailModal';
 import { TrustLocationSection } from './components/TrustLocationSection';
 import { AdminCenter } from './components/AdminCenter';
 import { Footer } from './components/Footer';
 
-import { Vehicle, AdminStats, VehicleFilterState } from './types';
-import { MessageSquare, Send, X, CheckCircle2, ShieldCheck, PhoneCall, RotateCcw, SearchX, Sparkles, Globe2 } from 'lucide-react';
+import { VehiclesPage } from './pages/VehiclesPage';
+import { VehicleDetailPage } from './pages/VehicleDetailPage';
+
+import { Vehicle, AdminStats } from './types';
+import { MessageSquare, Send, X, CheckCircle2 } from 'lucide-react';
 import { formatGhs, formatUsd, getWhatsAppVehicleLink } from './utils/formatters';
-import { testFirestoreConnection, subscribeToVehicles, submitEnquiryToFirestore } from './lib/firebase';
+import { testFirestoreConnection, submitEnquiryToFirestore } from './lib/firebase';
 
 export default function App() {
   const [currency, setCurrency] = useState<'GHS' | 'USD'>('GHS');
   const [activeSection, setActiveSection] = useState<string>('showcase');
 
+  // Page Routing State
+  const [currentPath, setCurrentPath] = useState<string>(window.location.pathname);
+  const [detailSlug, setDetailSlug] = useState<string | null>(null);
+
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [allVehicles, setAllVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // Selected Vehicle for inspection detail view
-  const [selectedVehicle, setSelectedVehicle] = useState<Vehicle | null>(null);
+  // Selected vehicle for detail page view
+  const [detailVehicle, setDetailVehicle] = useState<Vehicle | null>(null);
+  const [loadingDetailVehicle, setLoadingDetailVehicle] = useState<boolean>(false);
 
   // Wholesale Price Request Modal Vehicle
   const [wholesalePriceModalVehicle, setWholesalePriceModalVehicle] = useState<Vehicle | null>(null);
@@ -44,74 +49,56 @@ export default function App() {
   // Admin Center modal toggle
   const [adminOpen, setAdminOpen] = useState<boolean>(false);
 
-  const handleSourceRequestWithPrefill = (categoryName: string) => {
-    handleScrollTo('sourcing');
+  // Sync state with URL pathname & browser back/forward
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname;
+      setCurrentPath(path);
+      if (path.startsWith('/vehicles/')) {
+        const slug = path.replace('/vehicles/', '');
+        setDetailSlug(slug);
+      } else {
+        setDetailSlug(null);
+      }
+      if (path === '/admin') {
+        setAdminOpen(true);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    handlePopState(); // Check on initial load
+
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  const navigateTo = (path: string) => {
+    window.history.pushState({}, '', path);
+    setCurrentPath(path);
+    if (path.startsWith('/vehicles/')) {
+      const slug = path.replace('/vehicles/', '');
+      setDetailSlug(slug);
+    } else {
+      setDetailSlug(null);
+    }
+    if (path === '/admin') {
+      setAdminOpen(true);
+    } else {
+      setAdminOpen(false);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Filtering State
-  const [filters, setFilters] = useState<VehicleFilterState>({
-    search: '',
-    make: 'ALL',
-    type: 'ALL',
-    location: 'ALL',
-    status: 'ALL',
-    minYear: '',
-    maxYear: '',
-    minPrice: '',
-    maxPrice: '',
-    fuel: 'ALL',
-    transmission: 'ALL',
-    condition: 'ALL',
-    sortBy: 'newest'
-  });
-
-  const resetAllFilters = () => {
-    setFilters({
-      search: '',
-      make: 'ALL',
-      type: 'ALL',
-      location: 'ALL',
-      status: 'ALL',
-      minYear: '',
-      maxYear: '',
-      minPrice: '',
-      maxPrice: '',
-      fuel: 'ALL',
-      transmission: 'ALL',
-      condition: 'ALL',
-      sortBy: 'newest'
-    });
-  };
-
-  // Fetch Vehicles & Stats from Backend Express API
+  // Fetch Inventory & Stats from API
   const fetchInventory = async () => {
     setLoading(true);
     try {
-      const params = new URLSearchParams();
-      if (filters.search) params.append('search', filters.search);
-      if (filters.make) params.append('make', filters.make);
-      if (filters.type) params.append('type', filters.type);
-      if (filters.location) params.append('location', filters.location);
-      if (filters.status) params.append('status', filters.status);
-      if (filters.fuel) params.append('fuel', filters.fuel);
-      if (filters.transmission) params.append('transmission', filters.transmission);
-      if (filters.condition) params.append('condition', filters.condition);
-      if (filters.minYear) params.append('minYear', filters.minYear);
-      if (filters.maxYear) params.append('maxYear', filters.maxYear);
-      if (filters.minPrice) params.append('minPrice', filters.minPrice);
-      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
-      if (filters.sortBy) params.append('sortBy', filters.sortBy);
-
       const [resVehicles, resStats] = await Promise.all([
-        fetch(`/api/vehicles?${params.toString()}`).then(r => r.json()),
+        fetch('/api/vehicles').then(r => r.json()),
         fetch('/api/stats').then(r => r.json())
       ]);
 
       if (resVehicles.success) {
         setVehicles(resVehicles.data);
-        if (allVehicles.length === 0 || (!filters.search && filters.make === 'ALL' && filters.type === 'ALL' && filters.location === 'ALL')) {
-          setAllVehicles(resVehicles.data);
-        }
       }
       if (resStats.success) {
         setStats(resStats.data);
@@ -125,37 +112,28 @@ export default function App() {
 
   useEffect(() => {
     testFirestoreConnection();
-    // Fetch initial complete list of vehicles for recommendation fallback
-    fetch('/api/vehicles')
-      .then(r => r.json())
-      .then(res => {
-        if (res.success && res.data) setAllVehicles(res.data);
-      })
-      .catch(() => {});
+    fetchInventory();
   }, []);
 
+  // Fetch individual vehicle detail by slug if viewing detail page
   useEffect(() => {
-    fetchInventory();
-  }, [filters]);
-
-  // Unique list of vehicle makes for filter dropdown
-  const uniqueMakes = Array.from(new Set((allVehicles.length > 0 ? allVehicles : vehicles).map(v => v.make))).sort();
-
-  // Active Filter Badges list
-  const activeFilterBadges = [
-    filters.search ? { label: `Search: "${filters.search}"`, clear: () => setFilters(p => ({ ...p, search: '' })) } : null,
-    filters.make !== 'ALL' ? { label: `Make: ${filters.make}`, clear: () => setFilters(p => ({ ...p, make: 'ALL' })) } : null,
-    filters.type !== 'ALL' ? { label: `Type: ${filters.type}`, clear: () => setFilters(p => ({ ...p, type: 'ALL' })) } : null,
-    filters.location !== 'ALL' ? { label: `Location: ${filters.location}`, clear: () => setFilters(p => ({ ...p, location: 'ALL' })) } : null,
-    filters.status !== 'ALL' ? { label: `Status: ${filters.status}`, clear: () => setFilters(p => ({ ...p, status: 'ALL' })) } : null,
-    filters.fuel !== 'ALL' ? { label: `Fuel: ${filters.fuel}`, clear: () => setFilters(p => ({ ...p, fuel: 'ALL' })) } : null,
-    filters.transmission !== 'ALL' ? { label: `Transmission: ${filters.transmission}`, clear: () => setFilters(p => ({ ...p, transmission: 'ALL' })) } : null,
-    filters.condition !== 'ALL' ? { label: `Condition: ${filters.condition}`, clear: () => setFilters(p => ({ ...p, condition: 'ALL' })) } : null,
-    filters.minYear ? { label: `Min Year: ${filters.minYear}`, clear: () => setFilters(p => ({ ...p, minYear: '' })) } : null,
-    filters.maxYear ? { label: `Max Year: ${filters.maxYear}`, clear: () => setFilters(p => ({ ...p, maxYear: '' })) } : null,
-    filters.minPrice ? { label: `Min Price: GHS ${filters.minPrice}`, clear: () => setFilters(p => ({ ...p, minPrice: '' })) } : null,
-    filters.maxPrice ? { label: `Max Price: GHS ${filters.maxPrice}`, clear: () => setFilters(p => ({ ...p, maxPrice: '' })) } : null,
-  ].filter(Boolean) as { label: string; clear: () => void }[];
+    if (detailSlug) {
+      setLoadingDetailVehicle(true);
+      fetch(`/api/vehicles/${detailSlug}`)
+        .then(r => r.json())
+        .then(res => {
+          if (res.success && res.data) {
+            setDetailVehicle(res.data);
+          } else {
+            setDetailVehicle(null);
+          }
+        })
+        .catch(() => setDetailVehicle(null))
+        .finally(() => setLoadingDetailVehicle(false));
+    } else {
+      setDetailVehicle(null);
+    }
+  }, [detailSlug]);
 
   // Handle Wholesale Price Request Submit
   const handlePriceInquirySubmit = async (e: React.FormEvent) => {
@@ -198,12 +176,28 @@ export default function App() {
   };
 
   const handleScrollTo = (sectionId: string) => {
+    if (currentPath !== '/') {
+      navigateTo('/');
+      setTimeout(() => {
+        const el = document.getElementById(sectionId);
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+      return;
+    }
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const handleSourceRequestWithPrefill = (categoryName: string) => {
+    handleScrollTo('sourcing');
+  };
+
+  // Determine current page view
+  const isVehiclesListPage = currentPath === '/vehicles';
+  const isVehicleDetailPage = currentPath.startsWith('/vehicles/') && detailSlug;
 
   return (
     <div className="min-h-screen bg-[#050505] text-[#F0F0F0] font-sans selection:bg-[#D4AF37] selection:text-black">
@@ -213,61 +207,96 @@ export default function App() {
         stats={stats}
         activeSection={activeSection}
         setActiveSection={handleScrollTo}
-        onOpenAdmin={() => setAdminOpen(true)}
+        onOpenAdmin={() => navigateTo('/admin')}
         currency={currency}
         setCurrency={setCurrency}
+        onNavigateVehicles={() => navigateTo('/vehicles')}
+        onNavigateHome={() => navigateTo('/')}
       />
 
-      {/* Hero Section */}
-      <Hero
-        stats={stats}
-        onExploreVehicles={() => handleScrollTo('showcase')}
-        onSourceVehicle={() => handleScrollTo('sourcing')}
-      />
-
-      {/* Main Content Area */}
-      <main className="space-y-4">
-        
-        {/* 1. VEHICLE SHOWCASE (Aesthetic showcase replacing inventory hero) */}
-        <VehicleShowcase
-          onSourceRequest={handleSourceRequestWithPrefill}
+      {/* RENDER PAGES BASED ON ROUTE */}
+      {isVehicleDetailPage ? (
+        /* VEHICLE DETAIL PAGE (/vehicles/[slug]) */
+        <VehicleDetailPage
+          vehicle={detailVehicle}
+          loading={loadingDetailVehicle}
+          currency={currency}
+          onBack={() => navigateTo('/vehicles')}
+          onRequestPrice={(v) => setWholesalePriceModalVehicle(v)}
+          onRequestSourcing={(v) => {
+            navigateTo('/');
+            setTimeout(() => {
+              const el = document.getElementById('sourcing');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }}
         />
+      ) : isVehiclesListPage ? (
+        /* VEHICLES CATALOG LISTING PAGE (/vehicles) */
+        <VehiclesPage
+          vehicles={vehicles}
+          loading={loading}
+          currency={currency}
+          onSelectVehicle={(v) => navigateTo(`/vehicles/${v.slug || v.id}`)}
+          onNavigateToDetail={(slug) => navigateTo(`/vehicles/${slug}`)}
+          onRequestSourcing={() => {
+            navigateTo('/');
+            setTimeout(() => {
+              const el = document.getElementById('sourcing');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+          }}
+          onRequestPrice={(v) => setWholesalePriceModalVehicle(v)}
+        />
+      ) : (
+        /* HOMEPAGE EXPERIENCE (/) */
+        <>
+          <Hero
+            stats={stats}
+            onExploreVehicles={() => navigateTo('/vehicles')}
+            onSourceVehicle={() => handleScrollTo('sourcing')}
+          />
 
-        {/* 2. BUSINESS SHOWCASE (MORE THAN A DEALERSHIP) */}
-        <BusinessShowcase />
+          <main className="space-y-4">
+            {/* FEATURED VEHICLES SECTION (Connected to DB) */}
+            <FeaturedVehiclesSection
+              vehicles={vehicles}
+              currency={currency}
+              onNavigateToVehicles={() => navigateTo('/vehicles')}
+              onNavigateToDetail={(slug) => navigateTo(`/vehicles/${slug}`)}
+              onRequestPrice={(v) => setWholesalePriceModalVehicle(v)}
+            />
 
-        {/* 3. VEHICLE SOURCING (CAN'T FIND THE RIGHT VEHICLE? WE'LL SOURCE IT) */}
-        <SourceVehicleSection />
+            {/* VEHICLE SHOWCASE (Sourcing capability showcase) */}
+            <VehicleShowcase
+              onSourceRequest={handleSourceRequestWithPrefill}
+            />
 
-        {/* 4. BUILT FOR DEALERS */}
-        <DealerWholesaleSection />
+            {/* BUSINESS SHOWCASE */}
+            <BusinessShowcase />
 
-        {/* 5. HOW IT WORKS */}
-        <HowItWorksSection />
+            {/* VEHICLE SOURCING */}
+            <SourceVehicleSection />
 
-        {/* 6. SOCIAL CHANNELS (FOLLOW THE VEHICLES) */}
-        <SocialChannelsSection />
+            {/* BUILT FOR DEALERS */}
+            <DealerWholesaleSection />
 
-        {/* 7. TEMA LOCATION & INSPECTION YARD */}
-        <TrustLocationSection />
+            {/* HOW IT WORKS */}
+            <HowItWorksSection />
 
-      </main>
+            {/* SOCIAL CHANNELS */}
+            <SocialChannelsSection />
+
+            {/* TEMA LOCATION & INSPECTION YARD */}
+            <TrustLocationSection />
+          </main>
+        </>
+      )}
 
       {/* Footer */}
       <Footer
         onSelectSection={handleScrollTo}
-        onOpenAdmin={() => setAdminOpen(true)}
-      />
-
-      {/* Modal: Vehicle Inspection Detail View */}
-      <VehicleDetailModal
-        vehicle={selectedVehicle}
-        currency={currency}
-        onClose={() => setSelectedVehicle(null)}
-        onRequestWholesalePrice={(v) => {
-          setSelectedVehicle(null);
-          setWholesalePriceModalVehicle(v);
-        }}
+        onOpenAdmin={() => navigateTo('/admin')}
       />
 
       {/* Modal: Wholesale Price Request Modal */}
@@ -386,7 +415,12 @@ export default function App() {
       {/* Admin Center Modal */}
       {adminOpen && (
         <AdminCenter
-          onClose={() => setAdminOpen(false)}
+          onClose={() => {
+            setAdminOpen(false);
+            if (currentPath === '/admin') {
+              navigateTo('/');
+            }
+          }}
           onDataChanged={fetchInventory}
         />
       )}

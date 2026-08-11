@@ -20,6 +20,8 @@ interface HeaderProps {
   onOpenAdmin: () => void;
   currency: 'GHS' | 'USD';
   setCurrency: (c: 'GHS' | 'USD') => void;
+  onNavigateVehicles?: () => void;
+  onNavigateHome?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -28,7 +30,9 @@ export const Header: React.FC<HeaderProps> = ({
   setActiveSection,
   onOpenAdmin,
   currency,
-  setCurrency
+  setCurrency,
+  onNavigateVehicles,
+  onNavigateHome
 }) => {
   return (
     <header className="sticky top-0 z-50 bg-[#050505]/95 backdrop-blur-md border-b border-[#1A1A1C] text-[#F0F0F0] transition-all font-sans">
@@ -99,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo & Tagline */}
         <div 
-          onClick={() => setActiveSection('inventory')}
+          onClick={() => onNavigateHome ? onNavigateHome() : setActiveSection('showcase')}
           className="cursor-pointer flex items-center gap-3"
         >
           <div className="w-6 h-6 bg-[#D4AF37] rotate-45 flex items-center justify-center shrink-0">
@@ -117,8 +121,14 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Desktop Navigation Links */}
         <nav className="hidden lg:flex items-center gap-6 text-[11px] uppercase tracking-widest font-semibold opacity-80">
+          <button
+            onClick={() => onNavigateVehicles ? onNavigateVehicles() : setActiveSection('showcase')}
+            className="text-[#D4AF37] font-bold hover:text-white transition-colors cursor-pointer py-1"
+          >
+            EXPLORE VEHICLES
+          </button>
           {[
-            { id: 'showcase', label: 'VEHICLE SHOWCASE' },
+            { id: 'showcase', label: 'CATEGORIES' },
             { id: 'business', label: 'BUSINESS & SCALE' },
             { id: 'sourcing', label: 'VEHICLE SOURCING' },
             { id: 'dealers', label: 'FOR DEALERS' },

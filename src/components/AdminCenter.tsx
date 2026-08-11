@@ -312,27 +312,37 @@ export const AdminCenter: React.FC<AdminCenterProps> = ({ onClose, onDataChanged
               </div>
             </div>
 
-            <div className="p-6 bg-[#080809] border border-[#1A1A1C] space-y-4">
-              <h3 className="font-black text-xs uppercase text-[#D4AF37] tracking-wider">INVENTORY STATUS BREAKDOWN</h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                <div className="p-3 bg-[#050505] border border-[#1A1A1C]">
-                  <span className="text-slate-500 text-[10px] uppercase block">AVAILABLE</span>
-                  <span className="text-[#00FF41] font-bold text-lg">{stats?.availableCount || 0}</span>
+              <div className="p-[#080809] grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 font-mono">
+                <div className="p-4 bg-[#080809] border border-[#1A1A1C] space-y-1">
+                  <span className="text-slate-500 text-[10px] uppercase block font-bold">TOTAL VEHICLES</span>
+                  <span className="text-white font-black text-2xl">{stats?.totalVehicles || 0}</span>
                 </div>
-                <div className="p-3 bg-[#050505] border border-[#1A1A1C]">
-                  <span className="text-slate-500 text-[10px] uppercase block">JUST ARRIVED</span>
-                  <span className="text-cyan-400 font-bold text-lg">{stats?.justArrivedCount || 0}</span>
+
+                <div className="p-4 bg-[#080809] border border-[#1A1A1C] space-y-1">
+                  <span className="text-slate-500 text-[10px] uppercase block font-bold">AVAILABLE</span>
+                  <span className="text-[#00FF41] font-black text-2xl">{stats?.availableCount || 0}</span>
                 </div>
-                <div className="p-3 bg-[#050505] border border-[#1A1A1C]">
-                  <span className="text-slate-500 text-[10px] uppercase block">RESERVED</span>
-                  <span className="text-[#D4AF37] font-bold text-lg">{stats?.reservedCount || 0}</span>
+
+                <div className="p-4 bg-[#080809] border border-[#1A1A1C] space-y-1">
+                  <span className="text-slate-500 text-[10px] uppercase block font-bold">SHOWCASE</span>
+                  <span className="text-[#D4AF37] font-black text-2xl">{stats?.showcaseCount || 0}</span>
                 </div>
-                <div className="p-3 bg-[#050505] border border-[#1A1A1C]">
-                  <span className="text-slate-500 text-[10px] uppercase block">SOLD</span>
-                  <span className="text-rose-400 font-bold text-lg">{stats?.soldCount || 0}</span>
+
+                <div className="p-4 bg-[#080809] border border-[#1A1A1C] space-y-1">
+                  <span className="text-slate-500 text-[10px] uppercase block font-bold">RESERVED</span>
+                  <span className="text-amber-400 font-black text-2xl">{stats?.reservedCount || 0}</span>
+                </div>
+
+                <div className="p-4 bg-[#080809] border border-[#1A1A1C] space-y-1">
+                  <span className="text-slate-500 text-[10px] uppercase block font-bold">SOLD</span>
+                  <span className="text-rose-400 font-black text-2xl">{stats?.soldCount || 0}</span>
+                </div>
+
+                <div className="p-4 bg-[#080809] border border-[#1A1A1C] space-y-1">
+                  <span className="text-slate-500 text-[10px] uppercase block font-bold">COMING SOON</span>
+                  <span className="text-blue-400 font-black text-2xl">{stats?.comingSoonCount || 0}</span>
                 </div>
               </div>
-            </div>
           </div>
         )}
 
@@ -497,18 +507,32 @@ export const AdminCenter: React.FC<AdminCenterProps> = ({ onClose, onDataChanged
                   </div>
 
                   <div>
-                    <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">AVAILABILITY STATUS</label>
+                    <label className="block text-slate-400 font-bold mb-1 uppercase text-[10px]">SYSTEM STATUS</label>
                     <select
-                      value={editingVehicle?.status || 'AVAILABLE'}
+                      value={editingVehicle?.status || 'showcase'}
                       onChange={e => setEditingVehicle({ ...editingVehicle, status: e.target.value as any })}
-                      className="w-full bg-[#050505] border border-[#1A1A1C] p-2 text-white text-xs"
+                      className="w-full bg-[#050505] border border-[#1A1A1C] p-2 text-[#D4AF37] font-bold text-xs"
                     >
-                      <option value="AVAILABLE">AVAILABLE</option>
-                      <option value="JUST ARRIVED">JUST ARRIVED</option>
-                      <option value="RESERVED">RESERVED</option>
-                      <option value="SOLD">SOLD</option>
-                      <option value="COMING SOON">COMING SOON</option>
+                      <option value="showcase">SHOWCASE (Marketing Showcase - NOT Available)</option>
+                      <option value="available">AVAILABLE (Explicitly Confirmed Available)</option>
+                      <option value="reserved">RESERVED</option>
+                      <option value="sold">SOLD</option>
+                      <option value="coming_soon">COMING SOON</option>
+                      <option value="draft">DRAFT (Hidden / Private)</option>
                     </select>
+                  </div>
+
+                  <div className="flex items-center gap-2 pt-4">
+                    <input
+                      type="checkbox"
+                      id="featured-checkbox"
+                      checked={!!editingVehicle?.featured}
+                      onChange={e => setEditingVehicle({ ...editingVehicle, featured: e.target.checked })}
+                      className="w-4 h-4 accent-[#D4AF37]"
+                    />
+                    <label htmlFor="featured-checkbox" className="text-white font-bold text-xs uppercase cursor-pointer">
+                      FEATURE ON HOMEPAGE
+                    </label>
                   </div>
 
                   <div className="sm:col-span-2 md:col-span-3">

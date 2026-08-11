@@ -144,7 +144,7 @@ app.get('/api/vehicles', (req, res) => {
   const make = (req.query.make as string || '').toLowerCase().trim();
   const type = (req.query.type as string || '').toUpperCase().trim();
   const location = (req.query.location as string || '').toUpperCase().trim();
-  const status = (req.query.status as string || '').toUpperCase().trim();
+  const status = (req.query.status as string || '').toLowerCase().trim();
   const fuel = (req.query.fuel as string || '').toUpperCase().trim();
   const transmission = (req.query.transmission as string || '').toUpperCase().trim();
   const condition = (req.query.condition as string || '').toUpperCase().trim();
@@ -153,22 +153,29 @@ app.get('/api/vehicles', (req, res) => {
   const minPrice = parseInt(req.query.minPrice as string) || 0;
   const maxPrice = parseInt(req.query.maxPrice as string) || 999999999;
   const sortBy = req.query.sortBy as string || 'newest';
+  const includeDrafts = req.query.includeDrafts === 'true';
+
+  // Exclude draft status for public queries unless explicitly requested
+  if (!includeDrafts && status !== 'draft') {
+    result = result.filter(v => (v.status || '').toLowerCase() !== 'draft');
+  }
 
   if (search) {
     result = result.filter(v =>
       v.make.toLowerCase().includes(search) ||
       v.model.toLowerCase().includes(search) ||
       v.stockId.toLowerCase().includes(search) ||
-      v.trim.toLowerCase().includes(search) ||
-      v.engine.toLowerCase().includes(search) ||
-      v.type.toLowerCase().includes(search) ||
-      v.location.toLowerCase().includes(search) ||
-      v.fuel.toLowerCase().includes(search) ||
-      v.color.toLowerCase().includes(search) ||
+      (v.slug && v.slug.toLowerCase().includes(search)) ||
+      (v.trim && v.trim.toLowerCase().includes(search)) ||
+      (v.engine && v.engine.toLowerCase().includes(search)) ||
+      (v.type && v.type.toLowerCase().includes(search)) ||
+      (v.location && v.location.toLowerCase().includes(search)) ||
+      (v.fuel && v.fuel.toLowerCase().includes(search)) ||
+      (v.color && v.color.toLowerCase().includes(search)) ||
       v.year.toString().includes(search) ||
-      v.condition.toLowerCase().includes(search) ||
-      v.drivetrain.toLowerCase().includes(search) ||
-      v.features.some(f => f.toLowerCase().includes(search))
+      (v.condition && v.condition.toLowerCase().includes(search)) ||
+      (v.drivetrain && v.drivetrain.toLowerCase().includes(search)) ||
+      (Array.isArray(v.features) && v.features.some(f => f.toLowerCase().includes(search)))
     );
   }
 
@@ -177,55 +184,64 @@ app.get('/api/vehicles', (req, res) => {
   }
 
   if (type && type !== 'ALL') {
-    result = result.filter(v => v.type.toUpperCase() === type);
+    result = result.filter(v => (v.type || v.bodyType || '').toUpperCase() === type);
   }
 
   if (location && location !== 'ALL') {
-    result = result.filter(v => v.location.toUpperCase() === location);
+    result = result.filter(v => (v.location || '').toUpperCase() === location);
   }
 
-  if (status && status !== 'ALL') {
-    result = result.filter(v => v.status.toUpperCase() === status);
+  if (status && status !== 'all') {
+    result = result.filter(v => {
+      const s = (v.status || '').toLowerCase().replace(/[\s_-]+/g, '');
+      const target = status.replace(/[\s_-]+/g, '');
+      return s === target;
+    });
   }
 
   if (fuel && fuel !== 'ALL') {
-    result = result.filter(v => v.fuel.toUpperCase() === fuel);
+    result = result.filter(v => (v.fuel || v.fuelType || '').toUpperCase() === fuel);
   }
 
   if (transmission && transmission !== 'ALL') {
-    result = result.filter(v => v.transmission.toUpperCase() === transmission);
+    result = result.filter(v => (v.transmission || '').toUpperCase() === transmission);
   }
 
   if (condition && condition !== 'ALL') {
-    result = result.filter(v => v.condition.toUpperCase() === condition);
+    result = result.filter(v => (v.condition || '').toUpperCase() === condition);
   }
 
   if (minYear) result = result.filter(v => v.year >= minYear);
   if (maxYear) result = result.filter(v => v.year <= maxYear);
-  if (minPrice) result = result.filter(v => v.priceGhs >= minPrice);
-  if (maxPrice) result = result.filter(v => v.priceGhs <= maxPrice);
+  if (minPrice) result = result.filter(v => (v.priceGhs || v.price || 0) >= minPrice);
+  if (maxPrice) result = result.filter(v => (v.priceGhs || v.price || 0) <= maxPrice);
 
   // Sorting
   if (sortBy === 'price-asc') {
-    result.sort((a, b) => a.priceGhs - b.priceGhs);
+    result.sort((a, b) => (a.priceGhs || a.price || 0) - (b.priceGhs || b.price || 0));
   } else if (sortBy === 'price-desc') {
-    result.sort((a, b) => b.priceGhs - a.priceGhs);
+    result.sort((a, b) => (b.priceGhs || b.price || 0) - (a.priceGhs || a.price || 0));
   } else if (sortBy === 'year-desc') {
     result.sort((a, b) => b.year - a.year);
   } else if (sortBy === 'featured') {
     result.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
   } else {
-    // default newest
-    result.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    result.sort((a, b) => new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime());
   }
 
   res.json({ success: true, count: result.length, data: result });
 });
 
-// 2. Get Single Vehicle
-app.get('/api/vehicles/:id', (req, res) => {
+// 2. Get Single Vehicle by ID, stockId, or slug
+app.get('/api/vehicles/:slugOrId', (req, res) => {
   const db = ensureDbExists();
-  const vehicle = db.vehicles.find(v => v.id === req.params.id || v.stockId.toLowerCase() === req.params.id.toLowerCase());
+  const param = req.params.slugOrId.toLowerCase().trim();
+  const vehicle = db.vehicles.find(v => 
+    v.id.toLowerCase() === param || 
+    v.stockId.toLowerCase() === param || 
+    (v.slug && v.slug.toLowerCase() === param) ||
+    `${v.make}-${v.model}-${v.year}-${v.stockId}`.toLowerCase().replace(/[^a-z0-9]+/g, '-') === param
+  );
   if (!vehicle) {
     return res.status(404).json({ success: false, message: 'Vehicle not found' });
   }
@@ -238,27 +254,36 @@ app.post('/api/vehicles', (req, res) => {
   const body = req.body;
 
   const now = new Date().toISOString();
+  const stockId = body.stockId || `TA-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
+  const make = body.make || 'Toyota';
+  const model = body.model || 'Unknown';
+  const year = parseInt(body.year) || new Date().getFullYear();
+  const slug = body.slug || `${make}-${model}-${year}-${stockId}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
   const newVehicle: Vehicle = {
-    id: `veh-${Date.now()}`,
-    stockId: body.stockId || `TA-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`,
-    make: body.make || 'Toyota',
-    model: body.model || 'Unknown',
-    year: parseInt(body.year) || new Date().getFullYear(),
+    id: body.id || `veh-${Date.now()}`,
+    stockId,
+    make,
+    model,
+    year,
+    slug,
     trim: body.trim || 'Standard Trim',
-    type: body.type || 'SUV',
-    priceGhs: parseInt(body.priceGhs) || 0,
-    priceUsd: parseInt(body.priceUsd) || Math.round((parseInt(body.priceGhs) || 0) / 13.5),
-    priceOnRequest: body.priceOnRequest || false,
-    mileageKm: parseInt(body.mileageKm) || 0,
+    type: body.type || body.bodyType || 'SUV',
+    bodyType: body.bodyType || body.type || 'SUV',
+    priceGhs: body.priceGhs !== undefined && body.priceGhs !== null ? parseInt(body.priceGhs) : (body.price ? parseInt(body.price) : 0),
+    priceUsd: body.priceUsd !== undefined && body.priceUsd !== null ? parseInt(body.priceUsd) : Math.round((parseInt(body.priceGhs) || 0) / 13.5),
+    priceOnRequest: !!body.priceOnRequest,
+    mileageKm: parseInt(body.mileageKm || body.mileage) || 0,
     condition: body.condition || 'NEW',
-    fuel: body.fuel || 'PETROL',
+    fuel: body.fuel || body.fuelType || 'PETROL',
     transmission: body.transmission || 'AUTOMATIC',
     drivetrain: body.drivetrain || 'FWD',
     color: body.color || 'Black',
     engine: body.engine || 'Standard Engine',
     location: body.location || 'GHANA',
-    status: body.status || 'AVAILABLE',
+    status: (body.status || 'showcase').toLowerCase().replace(/[\s_-]+/g, '') === 'available' ? 'available' : (body.status || 'showcase'),
     featured: !!body.featured,
+    description: body.description || '',
     images: Array.isArray(body.images) && body.images.length > 0 ? body.images : [
       'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80'
     ],
@@ -465,14 +490,21 @@ app.get('/api/stats', (req, res) => {
   const db = ensureDbExists();
   const vehicles = db.vehicles;
 
+  const countByStatus = (statusName: string) => {
+    const target = statusName.toLowerCase().replace(/[\s_-]+/g, '');
+    return vehicles.filter(v => (v.status || '').toLowerCase().replace(/[\s_-]+/g, '') === target).length;
+  };
+
   const stats = {
     totalVehicles: vehicles.length,
-    ghanaStockCount: vehicles.filter(v => v.location === 'GHANA').length,
-    chinaExportCount: vehicles.filter(v => v.location === 'CHINA EXPORT').length,
-    availableCount: vehicles.filter(v => v.status === 'AVAILABLE').length,
-    justArrivedCount: vehicles.filter(v => v.status === 'JUST ARRIVED').length,
-    reservedCount: vehicles.filter(v => v.status === 'RESERVED').length,
-    soldCount: vehicles.filter(v => v.status === 'SOLD').length,
+    availableCount: countByStatus('available') + countByStatus('justarrived'),
+    showcaseCount: countByStatus('showcase'),
+    reservedCount: countByStatus('reserved'),
+    soldCount: countByStatus('sold'),
+    comingSoonCount: countByStatus('comingsoon') + countByStatus('coming_soon'),
+    draftCount: countByStatus('draft'),
+    ghanaStockCount: vehicles.filter(v => (v.location || '').toUpperCase() === 'GHANA').length,
+    chinaExportCount: vehicles.filter(v => (v.location || '').toUpperCase() === 'CHINA EXPORT').length,
     sourcingRequestsCount: db.sourcingRequests.length,
     dealerRequestsCount: db.dealerRequests.length,
     enquiriesCount: db.enquiries.length

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
   ChevronRight, 
@@ -16,6 +17,8 @@ import { getWhatsAppSourcingLink } from '../utils/formatters';
 
 interface ShowcaseCategory {
   id: string;
+  typeGroup: 'passenger' | 'suv' | 'ev' | 'pickup_mpv' | 'commercial';
+  isChineseBrand?: boolean;
   title: string;
   buttonLabel: string;
   subtitle: string;
@@ -29,19 +32,51 @@ interface ShowcaseCategory {
 
 const SHOWCASE_ITEMS: ShowcaseCategory[] = [
   {
-    id: 'toyota',
-    title: 'TOYOTA & JAPANESE BRANDS',
-    buttonLabel: 'EXPLORE TOYOTA',
-    subtitle: 'Proven Durability & High Resale Retention',
-    image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=1200&q=80',
-    popularModels: ['Land Cruiser Prado / 300 Series', 'RAV4 Hybrid & Petrol', 'Hilux Revo 4x4 Double Cab', 'Camry & Corolla Executive'],
-    specsSummary: '2.0L - 3.5L V6 Twin-Turbo, Dual VVT-i, AWD & 4WD Heavy Duty Chassis',
-    powertrains: 'Petrol, Hybrid (HEV), Diesel (GD-6)',
-    originBase: 'Tema Staging Yard & Global Wholesale Channels',
-    description: 'The backbone of West African automotive demand. Trust Auto Trader sources factory-grade Toyota Land Cruisers, RAV4s, and Hilux double cabs tailored for commercial fleet reliability and personal prestige.'
+    id: 'byd',
+    typeGroup: 'ev',
+    isChineseBrand: true,
+    title: 'BYD ELECTRIC & HYBRID RANGE',
+    buttonLabel: 'EXPLORE BYD',
+    subtitle: 'World-Leading Blade Battery, DM-i Hybrids & EV Innovation',
+    image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['BYD Seal AWD Sport Sedan (523 HP)', 'BYD Song Plus DM-i / Atto 3 Crossover', 'BYD Tang 7-Seater EV / PHEV', 'BYD Dolphin & Seagull Urban EVs', 'BYD Han Executive Flagship'],
+    specsSummary: 'Ultra-Safe Flame-Proof Blade Battery, DM-i Super Hybrid Efficiency (3.8L/100km), 800V e-Platform 3.0',
+    powertrains: '100% Pure Electric (BEV), DM-i Super Hybrid (PHEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'As China\'s premier EV & Hybrid manufacturer, BYD vehicles are sourced directly through our 5,000m² Guangdong export base with complete factory inspection certifications and international export compliance.'
+  },
+  {
+    id: 'chery',
+    typeGroup: 'suv',
+    isChineseBrand: true,
+    title: 'CHERY & JETOUR AUTOMOTIVE',
+    buttonLabel: 'EXPLORE CHERY & JETOUR',
+    subtitle: 'High-Reliability Kunpeng Turbo Engines & Modern Luxury Crossovers',
+    image: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Chery Tiggo 8 Pro Max AWD (7-Seater)', 'Jetour Dashing Turbo Crossover', 'Jetour Traveller T2 4WD Off-Roader', 'Chery Arrizo 8 Executive Sedan', 'Chery Omoda 5 Futuristic Crossover'],
+    specsSummary: '2.0 TGDI Kunpeng Turbo Engine (254 HP, 390 Nm), 7-Speed Wet DCT / 8AT, All-Terrain AWD',
+    powertrains: 'Turbo Petrol, C-DM Super Plug-in Hybrid',
+    originBase: '5,000m² China Export Base',
+    description: 'Chery is one of China\'s top automotive exporters worldwide. Through our Guangdong export staging facility, Trust Auto Trader sources factory-new Chery Tiggo and Jetour crossovers engineered for high mechanical durability.'
+  },
+  {
+    id: 'gwm',
+    typeGroup: 'suv',
+    isChineseBrand: true,
+    title: 'GREAT WALL MOTORS (GWM)',
+    buttonLabel: 'EXPLORE GWM RANGE',
+    subtitle: 'Rugged HAVAL SUVs, Premium TANK 4x4s & Heavy Duty POER Pickups',
+    image: 'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['GWM Tank 300 / Tank 500 Off-Road 4WD', 'GWM Poer / Cannon 4x4 Double Cab Pickup', 'HAVAL H6 HEV & GT Sport Crossover', 'HAVAL Jolion Compact SUV', 'GWM Ora Good Cat EV'],
+    specsSummary: '3.0T V6 Twin-Turbo (354 HP) / 2.0T Diesel, 9AT Transmission, Triple Differential Lockers, 3.5T Towing',
+    powertrains: 'Turbo Diesel, Petrol, HEV Hybrid, Hi4 Plug-In 4WD',
+    originBase: '5,000m² China Export Base',
+    description: 'Great Wall Motors dominates heavy utility and luxury off-road segments. We source GWM Poer pickups for mining and agricultural fleets alongside Haval and Tank 4x4s for premium off-roading.'
   },
   {
     id: 'geely',
+    typeGroup: 'suv',
+    isChineseBrand: true,
     title: 'GEELY AUTOMOTIVE RANGE',
     buttonLabel: 'EXPLORE GEELY',
     subtitle: 'Volvo-Engineered Tech & Modern SUV Design',
@@ -54,6 +89,8 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
   },
   {
     id: 'changan',
+    typeGroup: 'suv',
+    isChineseBrand: true,
     title: 'CHANGAN AUTOMOTIVE',
     buttonLabel: 'EXPLORE CHANGAN',
     subtitle: 'Futuristic Styling & High-Efficiency Blue Core Powertrains',
@@ -65,19 +102,21 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
     description: 'Recognized for stunning futuristic architecture and ultra-reliable Blue Core turbo engines, Changan models deliver top-tier luxury amenities at wholesale import economics.'
   },
   {
-    id: 'byd',
-    title: 'BYD ELECTRIC VEHICLES',
-    buttonLabel: 'EXPLORE BYD',
-    subtitle: 'World-Leading Blade Battery & EV Innovation',
-    image: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80',
-    popularModels: ['BYD Seal AWD Sport Sedan (523 HP)', 'BYD Han EV Executive Flagship', 'BYD Atto 3 (Yuan Plus) Compact SUV', 'BYD Dolphin Urban Hatchback'],
-    specsSummary: 'Ultra-Safe Blade Battery Technology, e-Platform 3.0, 0-100 km/h in 3.8s',
-    powertrains: '100% Pure Electric (BEV), DM-i Super Hybrid',
-    originBase: '5,000m² China Export Base',
-    description: 'The global leader in EV technology. BYD vehicles feature flame-proof Blade Battery cells, zero fuel expenses, and superior thermal efficiency built for modern urban transportation.'
+    id: 'toyota',
+    typeGroup: 'passenger',
+    title: 'TOYOTA & JAPANESE BRANDS',
+    buttonLabel: 'EXPLORE TOYOTA',
+    subtitle: 'Proven Durability & High Resale Retention',
+    image: 'https://images.unsplash.com/photo-1590362891991-f776e747a588?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Land Cruiser Prado / 300 Series', 'RAV4 Hybrid & Petrol', 'Hilux Revo 4x4 Double Cab', 'Camry & Corolla Executive'],
+    specsSummary: '2.0L - 3.5L V6 Twin-Turbo, Dual VVT-i, AWD & 4WD Heavy Duty Chassis',
+    powertrains: 'Petrol, Hybrid (HEV), Diesel (GD-6)',
+    originBase: 'Tema Staging Yard & Global Wholesale Channels',
+    description: 'The backbone of West African automotive demand. Trust Auto Trader sources factory-grade Toyota Land Cruisers, RAV4s, and Hilux double cabs tailored for commercial fleet reliability and personal prestige.'
   },
   {
     id: 'suvs',
+    typeGroup: 'suv',
     title: 'SUVs & CROSSOVERS',
     buttonLabel: 'EXPLORE SUVs',
     subtitle: 'Compact, Mid-size & 7-Seater Family Off-Roaders',
@@ -90,6 +129,7 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
   },
   {
     id: 'sedans',
+    typeGroup: 'passenger',
     title: 'SEDANS & EXECUTIVE CARS',
     buttonLabel: 'EXPLORE SEDANS',
     subtitle: 'Sleek Fuel Efficiency & Diplomatic Luxury Comfort',
@@ -102,6 +142,7 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
   },
   {
     id: 'pickups',
+    typeGroup: 'pickup_mpv',
     title: 'PICKUP TRUCKS & 4x4 UTILITY',
     buttonLabel: 'EXPLORE PICKUPS',
     subtitle: 'Heavy Commercial Payloads & Off-Road Fleet Durability',
@@ -113,9 +154,76 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
     description: 'Engineered for mining, agriculture, construction, and security fleets. Rugged 4x4 utility pickups equipped with reinforced chassis frame rails.'
   },
   {
+    id: 'mpvs',
+    typeGroup: 'pickup_mpv',
+    title: 'MINIVANS & MPVs (7-9 SEATERS)',
+    buttonLabel: 'EXPLORE MINIVANS',
+    subtitle: 'First-Class Executive Lounges & Large Family Carriers',
+    image: 'https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['BYD Denza D9 Luxury EV/PHEV MPV', 'Toyota Alphard / Vellfire 3.5L Executive Lounge', 'GAC Trumpchi M8 Master Edition', 'Hyundai Staria 9-Seater', 'Maxus G90 VIP Shuttle'],
+    specsSummary: 'Captain Ottoman Seats with Massage, Dual Electric Sliding Doors, Rear Entertainment Screen',
+    powertrains: 'Hybrid (HEV), Plug-in Hybrid (PHEV), Electric (BEV)',
+    originBase: '5,000m² China Export Base & Global Channels',
+    description: 'Ultra-luxurious 7-to-9 seater MPVs built for VIP hotel airport transfers, executive corporate shuttles, and comfortable multi-family long-distance transport.'
+  },
+  {
+    id: 'offroad',
+    typeGroup: 'suv',
+    title: 'OFF-ROAD & EXPEDITION 4x4',
+    buttonLabel: 'EXPLORE OFF-ROAD',
+    subtitle: 'Extreme Terrain Off-Roaders & Expedition Vehicles',
+    image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['GWM Tank 500 V6 Twin-Turbo', 'Jetour Traveller T2 4WD', 'FangChengBao Bao 5 Off-Road EV', 'Land Rover Defender 110', 'Mercedes-Benz G63 AMG'],
+    specsSummary: 'Triple Differential Lockers, Crawl Control, 700mm+ Wading Depth, Heavy-Duty Skid Plates',
+    powertrains: 'V6 Turbo Petrol, Super Hybrid 4x4, EV 4WD',
+    originBase: '5,000m² China Export Base & Tema Yard',
+    description: 'Bespoke off-road expedition vehicles designed to tackle demanding West African safari routes, unpaved mining access roads, and rugged terrain with luxury comfort.'
+  },
+  {
+    id: 'luxury_sports',
+    typeGroup: 'passenger',
+    title: 'LUXURY & PERFORMANCE SPORTS',
+    buttonLabel: 'EXPLORE LUXURY',
+    subtitle: 'High-Performance Supercars & Flagship Grand Tourers',
+    image: 'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Zeekr 001 Shooting Brake (544 HP)', 'Li Auto L9 Ultra Max Flagship', 'Porsche Taycan EV', 'BMW M5 Competition', 'Yangwang U8 Amphibious SUV'],
+    specsSummary: '800V Ultra-Fast Architecture, Air Suspension, 0-100km/h in under 3.5 seconds',
+    powertrains: 'Dual-Motor AWD Electric, Biturbo V8, Range-Extended EV',
+    originBase: '5,000m² China Export Base & VIP Procurement',
+    description: 'Top-tier luxury vehicles and performance grand tourers sourced for discerning collectors, government dignitaries, and VIP corporate executives.'
+  },
+  {
+    id: 'buses',
+    typeGroup: 'commercial',
+    title: 'BUSES, SHUTTLES & COACHES',
+    buttonLabel: 'EXPLORE BUSES',
+    subtitle: '15 to 55-Seater Commuter Buses & Luxury Tourist Coaches',
+    image: 'https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Yutong 30-Seater Commuter Bus', 'Toyota Coaster Executive 23-Seater', 'King Long Luxury Tourist Coach 55-Seater', 'Golden Dragon Electric City Shuttle'],
+    specsSummary: 'Cummins Diesel / EV Motors, Air Brakes, Reinforced Roll-Cage Safety Frame, Air Conditioning',
+    powertrains: 'Turbo Diesel, Pure Electric (BEV)',
+    originBase: 'China Bus Manufacturer Staging Base',
+    description: 'Reliable mass transit solutions for school districts, intercity transport fleets, luxury tourism operators, and church congregation shuttles.'
+  },
+  {
+    id: 'electric_cargo',
+    typeGroup: 'ev',
+    isChineseBrand: true,
+    title: 'ELECTRIC CARGO VANS & FLEETS',
+    buttonLabel: 'EXPLORE EV VANS',
+    subtitle: 'Zero-Emission Last-Mile Logistics & Urban Freight',
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['Farizon V6E Electric Cargo Van', 'Maxus eDeliver 9 Heavy Van', 'BYD T3 Electric Panel Van', 'JAC Sunray EV Express Cargo'],
+    specsSummary: '6.5 m³ to 11 m³ Cargo Volume, CATL Lithium Iron Phosphate Battery, 280km Range',
+    powertrains: '100% Pure Electric (BEV)',
+    originBase: '5,000m² China Export Base',
+    description: 'Purpose-built commercial electric panel vans designed to eliminate fuel costs and optimize last-mile courier delivery fleets in urban centers.'
+  },
+  {
     id: 'commercial',
+    typeGroup: 'commercial',
     title: 'COMMERCIAL & HEAVY TRUCKS',
-    buttonLabel: 'EXPLORE COMMERCIAL',
+    buttonLabel: 'EXPLORE TRUCKS',
     subtitle: 'Tractor Heads, Tipper Dumpers & Industrial Fleets',
     image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80',
     popularModels: ['FAW Jiefang J6P 380HP 6x4 Tractor Head', 'Sinotruk HOWO 371HP Dumper', 'Shacman F3000 Heavy Tipper', 'Foton Auman Heavy Duty'],
@@ -123,6 +231,19 @@ const SHOWCASE_ITEMS: ShowcaseCategory[] = [
     powertrains: 'Heavy Duty Intercooled Turbo Diesel',
     originBase: 'Direct China Heavy Machinery Export Staging',
     description: 'Direct procurement channels for heavy-duty construction transport, logistics tractor units, and mining dumpers directly sourced from China manufacturer bases.'
+  },
+  {
+    id: 'machinery',
+    typeGroup: 'commercial',
+    title: 'HEAVY MACHINERY & EARTHMOVERS',
+    buttonLabel: 'EXPLORE MACHINERY',
+    subtitle: 'Excavators, Wheel Loaders, Cranes & Road Compactors',
+    image: 'https://images.unsplash.com/photo-1579412690850-bd41cd0af397?auto=format&fit=crop&w=1200&q=80',
+    popularModels: ['SANY SY215C 22-Ton Heavy Excavator', 'XCMG LW500FN 5-Ton Wheel Loader', 'Zoomlion 25-Ton Mobile Crane', 'Shantui SD22 Heavy Crawler Bulldozer'],
+    specsSummary: 'Kawasaki Hydraulic Systems, Heavy Duty Boom & Arm, High-Altitude Engine Cooling',
+    powertrains: 'Heavy Duty Industrial Turbo Diesel',
+    originBase: 'China Heavy Equipment Export Hub',
+    description: 'Industrial-grade earthmoving and construction equipment for roadworks, quarrying, mining, and civil infrastructure projects across Africa.'
   }
 ];
 
@@ -132,6 +253,13 @@ interface VehicleShowcaseProps {
 
 export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceRequest }) => {
   const [selectedCategory, setSelectedCategory] = useState<ShowcaseCategory | null>(null);
+  const [activeGroup, setActiveGroup] = useState<string>('all');
+
+  const filteredItems = activeGroup === 'all' 
+    ? SHOWCASE_ITEMS 
+    : activeGroup === 'chinese'
+    ? SHOWCASE_ITEMS.filter(item => item.isChineseBrand)
+    : SHOWCASE_ITEMS.filter(item => item.typeGroup === activeGroup);
 
   return (
     <section id="showcase" className="py-16 max-w-7xl mx-auto px-4 sm:px-8 space-y-10">
@@ -141,7 +269,7 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
         <div className="space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#080809] border border-[#D4AF37] text-[#D4AF37] text-[10px] font-mono font-bold uppercase tracking-widest">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>WHOLESALE VEHICLE CATALOGUE</span>
+            <span>WHOLESALE VEHICLE CATALOGUE ({SHOWCASE_ITEMS.length} CATEGORIES)</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter text-white">
@@ -149,7 +277,7 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
           </h2>
 
           <p className="text-slate-400 text-sm font-light leading-relaxed">
-            Visually showcasing the core brands, categories, and commercial vehicles Trust Auto Trader sources through our international wholesale network.
+            Visually showcasing our direct China export sourcing strengths across top manufacturers like BYD, Chery, GWM, Geely, Changan as well as Toyota and commercial fleets.
           </p>
         </div>
 
@@ -164,62 +292,111 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
         </div>
       </div>
 
-      {/* Showcase Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {SHOWCASE_ITEMS.map((item) => (
-          <div
-            key={item.id}
-            className="group bg-[#080809] border border-[#1A1A1C] hover:border-[#D4AF37] transition-all flex flex-col overflow-hidden"
+      {/* Category Type Filter Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none border-b border-[#1A1A1C]">
+        {[
+          { id: 'all', label: 'ALL VEHICLE TYPES', count: SHOWCASE_ITEMS.length },
+          { id: 'chinese', label: 'CHINESE MANUFACTURERS (BYD, CHERY, GWM, GEELY)', count: SHOWCASE_ITEMS.filter(i => i.isChineseBrand).length },
+          { id: 'passenger', label: 'PASSENGER & SEDANS', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'passenger').length },
+          { id: 'suv', label: 'SUVs & 4x4 OFF-ROAD', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'suv').length },
+          { id: 'ev', label: 'ELECTRIC & HYBRID (EV)', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'ev').length },
+          { id: 'pickup_mpv', label: 'PICKUPS & MINIVANS (MPV)', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'pickup_mpv').length },
+          { id: 'commercial', label: 'COMMERCIAL & HEAVY DUTY', count: SHOWCASE_ITEMS.filter(i => i.typeGroup === 'commercial').length },
+        ].map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setActiveGroup(tab.id)}
+            className={`whitespace-nowrap px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider transition-all border cursor-pointer flex items-center gap-2 ${
+              activeGroup === tab.id
+                ? 'bg-[#D4AF37] text-black border-[#D4AF37] font-black'
+                : 'bg-[#080809] border-[#1A1A1C] text-slate-400 hover:text-white hover:border-[#D4AF37]'
+            }`}
           >
-            {/* Image Container */}
-            <div className="relative aspect-[16/10] overflow-hidden bg-[#111]">
-              <img
-                src={item.image}
-                alt={item.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080809] via-transparent to-black/20" />
-              
-              <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 text-[9px] font-mono text-[#D4AF37] font-bold uppercase border border-[#2A2A30]">
-                {item.originBase}
-              </div>
-            </div>
-
-            {/* Content */}
-            <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <h3 className="text-base font-black uppercase tracking-tight text-white group-hover:text-[#D4AF37] transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-slate-400 font-light line-clamp-2 leading-relaxed">
-                  {item.subtitle}
-                </p>
-
-                {/* Micro Models preview */}
-                <div className="pt-2 border-t border-[#1A1A1C]/80 space-y-1 font-mono text-[10px]">
-                  <span className="text-slate-500 uppercase tracking-wider block font-bold">POPULAR SOURCING MODELS:</span>
-                  <p className="text-slate-300 line-clamp-2">
-                    {item.popularModels.join(' • ')}
-                  </p>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <button
-                onClick={() => setSelectedCategory(item)}
-                className="w-full py-3 bg-[#121215] group-hover:bg-[#D4AF37] text-white group-hover:text-black font-mono font-black text-xs uppercase tracking-widest transition-all border border-[#2A2A30] group-hover:border-[#D4AF37] flex items-center justify-center gap-2 cursor-pointer mt-auto"
-              >
-                <span>{item.buttonLabel}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
+            <span>{tab.label}</span>
+            <span className={`px-1.5 py-0.2 text-[9px] font-bold ${activeGroup === tab.id ? 'bg-black text-[#D4AF37]' : 'bg-[#121215] text-slate-400'}`}>
+              {tab.count}
+            </span>
+          </button>
         ))}
       </div>
 
+      {/* Showcase Grid */}
+      <motion.div 
+        layout
+        className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
+        <AnimatePresence mode="popLayout">
+          {filteredItems.map((item, index) => (
+            <motion.div
+              key={item.id}
+              layout
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{
+                duration: 0.45,
+                delay: (index % 4) * 0.06,
+                ease: [0.16, 1, 0.3, 1]
+              }}
+              className="group bg-[#080809] border border-[#1A1A1C] hover:border-[#D4AF37] transition-all flex flex-col overflow-hidden"
+            >
+              {/* Image Container */}
+              <div className="relative aspect-[16/10] overflow-hidden bg-[#111]">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#080809] via-transparent to-black/20" />
+                
+                <div className="absolute top-3 left-3 bg-black/80 backdrop-blur-md px-2.5 py-1 text-[9px] font-mono text-[#D4AF37] font-bold uppercase border border-[#2A2A30]">
+                  {item.originBase}
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                <div className="space-y-2">
+                  <h3 className="text-base font-black uppercase tracking-tight text-white group-hover:text-[#D4AF37] transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 font-light line-clamp-2 leading-relaxed">
+                    {item.subtitle}
+                  </p>
+
+                  {/* Micro Models preview */}
+                  <div className="pt-2 border-t border-[#1A1A1C]/80 space-y-1 font-mono text-[10px]">
+                    <span className="text-slate-500 uppercase tracking-wider block font-bold">POPULAR SOURCING MODELS:</span>
+                    <p className="text-slate-300 line-clamp-2">
+                      {item.popularModels.join(' • ')}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <button
+                  onClick={() => setSelectedCategory(item)}
+                  className="w-full py-3 bg-[#121215] group-hover:bg-[#D4AF37] text-white group-hover:text-black font-mono font-black text-xs uppercase tracking-widest transition-all border border-[#2A2A30] group-hover:border-[#D4AF37] flex items-center justify-center gap-2 cursor-pointer mt-auto"
+                >
+                  <span>{item.buttonLabel}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
+
       {/* Sourcing Callout Banner */}
-      <div className="bg-[#080809] border border-[#D4AF37]/30 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 font-mono">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="bg-[#080809] border border-[#D4AF37]/30 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 font-mono"
+      >
         <div className="space-y-2">
           <div className="flex items-center gap-2 text-xs font-bold text-[#D4AF37] uppercase tracking-wider">
             <Sparkles className="w-4 h-4" />
@@ -239,12 +416,24 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
         >
           SOURCE A CUSTOM VEHICLE →
         </button>
-      </div>
+      </motion.div>
 
       {/* Detail / Sourcing Spec Modal */}
-      {selectedCategory && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0A0A0C] border border-[#2A2A30] max-w-2xl w-full p-6 sm:p-8 space-y-6 relative text-[#F0F0F0]">
+      <AnimatePresence>
+        {selectedCategory && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto"
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              className="bg-[#0A0A0C] border border-[#2A2A30] max-w-2xl w-full p-6 sm:p-8 space-y-6 relative text-[#F0F0F0]"
+            >
             
             <button
               onClick={() => setSelectedCategory(null)}
@@ -334,9 +523,10 @@ export const VehicleShowcase: React.FC<VehicleShowcaseProps> = ({ onSourceReques
               </a>
             </div>
 
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
     </section>
   );
