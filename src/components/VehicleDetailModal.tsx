@@ -30,6 +30,7 @@ import {
 import { Vehicle } from '../types';
 import { formatGhs, formatUsd, getWhatsAppVehicleLink } from '../utils/formatters';
 import { exportSingleVehiclePdf } from '../utils/pdfExport';
+import { handleImageError } from '../utils/imageUtils';
 
 interface VehicleDetailModalProps {
   vehicle: Vehicle | null;
@@ -255,6 +256,8 @@ export const VehicleDetailModal: React.FC<VehicleDetailModalProps> = ({
               <img
                 src={currentImage}
                 alt={`${vehicle.make} ${vehicle.model}`}
+                referrerPolicy="no-referrer"
+                onError={handleImageError}
                 style={{
                   transform: isZoomMode 
                     ? `scale(${zoomScale})` 
@@ -336,7 +339,7 @@ export const VehicleDetailModal: React.FC<VehicleDetailModalProps> = ({
                           : 'border-[#1A1A1C] opacity-60 hover:opacity-100'
                       }`}
                     >
-                      <img src={img} alt="" className="w-full h-full object-cover" />
+                      <img src={img} alt="" referrerPolicy="no-referrer" onError={handleImageError} className="w-full h-full object-cover" />
                       
                       {/* Filmstrip Frame Tag */}
                       <span className={`absolute bottom-0 left-0 right-0 text-[8px] font-mono text-center py-0.5 font-bold ${
@@ -504,7 +507,7 @@ export const VehicleDetailModal: React.FC<VehicleDetailModalProps> = ({
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 cursor-pointer font-mono"
         >
           <div className="relative max-w-full max-h-full">
-            <img src={fullscreenImage} alt="" className="max-w-full max-h-[90vh] object-contain border border-[#1A1A1C]" />
+            <img src={fullscreenImage} alt="" referrerPolicy="no-referrer" onError={handleImageError} className="max-w-full max-h-[90vh] object-contain border border-[#1A1A1C]" />
             <div className="absolute top-2 left-2 bg-black/80 text-[10px] text-[#D4AF37] px-3 py-1 border border-[#1A1A1C]">
               {vehicle.year} {vehicle.make} {vehicle.model} - FULLSCREEN SPEC PREVIEW
             </div>

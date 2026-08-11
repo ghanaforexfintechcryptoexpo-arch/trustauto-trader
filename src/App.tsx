@@ -21,6 +21,7 @@ import { Footer } from './components/Footer';
 import { Vehicle, AdminStats, VehicleFilterState } from './types';
 import { MessageSquare, Send, X, CheckCircle2, ShieldCheck, PhoneCall } from 'lucide-react';
 import { formatGhs, formatUsd, getWhatsAppVehicleLink } from './utils/formatters';
+import { testFirestoreConnection, subscribeToVehicles, submitEnquiryToFirestore } from './lib/firebase';
 
 export default function App() {
   const [currency, setCurrency] = useState<'GHS' | 'USD'>('GHS');
@@ -96,6 +97,10 @@ export default function App() {
   };
 
   useEffect(() => {
+    testFirestoreConnection();
+  }, []);
+
+  useEffect(() => {
     fetchInventory();
   }, [filters]);
 
@@ -108,6 +113,19 @@ export default function App() {
     if (!wholesalePriceModalVehicle) return;
 
     try {
+      await submitEnquiryToFirestore({
+        vehicleId: wholesalePriceModalVehicle.id,
+        vehicleStockId: wholesalePriceModalVehicle.stockId,
+        vehicleTitle: `${wholesalePriceModalVehicle.year} ${wholesalePriceModalVehicle.make} ${wholesalePriceModalVehicle.model}`,
+        customerName: priceInquiryForm.name,
+        phone: priceInquiryForm.phone,
+        email: priceInquiryForm.email,
+        message: `Wholesale Price Request for ${wholesalePriceModalVehicle.stockId} (${wholesalePriceModalVehicle.make} ${wholesalePriceModalVehicle.model}). Notes: ${priceInquiryForm.notes}`,
+        source: 'DIRECT',
+        status: 'NEW',
+        createdAt: new Date().toISOString()
+      });
+
       await fetch('/api/enquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -12,6 +12,7 @@ import {
   RotateCcw
 } from 'lucide-react';
 import { getWhatsAppSourcingLink } from '../utils/formatters';
+import { submitSourcingRequestToFirestore } from '../lib/firebase';
 
 export const SourceVehicleSection: React.FC = () => {
   const [buyerType, setBuyerType] = useState<'INDIVIDUAL BUYER' | 'DEALER / WHOLESALE'>('INDIVIDUAL BUYER');
@@ -45,6 +46,30 @@ export const SourceVehicleSection: React.FC = () => {
     setErrorMsg(null);
 
     try {
+      const refNo = `SRC-${Date.now().toString().slice(-6)}`;
+      await submitSourcingRequestToFirestore({
+        refNumber: refNo,
+        buyerType: buyerType,
+        customerName: form.customerName,
+        companyName: form.companyName,
+        phone: form.phone,
+        email: form.email,
+        make: form.make,
+        model: form.model,
+        minYear: parseInt(form.minYear || '2021'),
+        maxYear: parseInt(form.maxYear || '2024'),
+        budgetGhs: parseFloat(form.budgetGhs || '0'),
+        quantity: parseInt(form.quantity || '1'),
+        condition: form.condition,
+        fuel: form.fuel,
+        transmission: form.transmission,
+        preferredLocation: form.preferredLocation,
+        destinationPort: form.destinationPort,
+        additionalNotes: form.additionalNotes,
+        status: 'NEW',
+        createdAt: new Date().toISOString()
+      });
+
       const res = await fetch('/api/sourcing', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

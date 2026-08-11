@@ -23,6 +23,7 @@ import {
 import { Vehicle, SourcingRequest, DealerRequest, Enquiry, AdminStats } from '../types';
 import { formatGhs, formatUsd } from '../utils/formatters';
 import { exportInventoryPdf, exportSingleVehiclePdf } from '../utils/pdfExport';
+import { handleImageError, DEFAULT_VEHICLE_IMAGE } from '../utils/imageUtils';
 
 interface AdminCenterProps {
   onClose: () => void;
@@ -559,8 +560,19 @@ export const AdminCenter: React.FC<AdminCenterProps> = ({ onClose, onDataChanged
                       <tr key={v.id} className="hover:bg-[#050505]">
                         <td className="p-3 font-bold text-[#D4AF37]">{v.stockId}</td>
                         <td className="p-3">
-                          <div className="font-bold text-white font-sans">{v.year} {v.make} {v.model}</div>
-                          <div className="text-[10px] text-slate-400">{v.trim}</div>
+                          <div className="flex items-center gap-3">
+                            <img
+                              src={v.images?.[0] || DEFAULT_VEHICLE_IMAGE}
+                              alt=""
+                              referrerPolicy="no-referrer"
+                              onError={handleImageError}
+                              className="w-12 h-9 object-cover border border-[#1A1A1C]"
+                            />
+                            <div>
+                              <div className="font-bold text-white font-sans">{v.year} {v.make} {v.model}</div>
+                              <div className="text-[10px] text-slate-400">{v.trim}</div>
+                            </div>
+                          </div>
                         </td>
                         <td className="p-3 font-bold">{formatGhs(v.priceGhs)}</td>
                         <td className="p-3 text-[10px]">{v.location}</td>

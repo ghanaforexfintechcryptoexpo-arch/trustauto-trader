@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Vehicle } from '../types';
 import { formatGhs, formatUsd, getWhatsAppVehicleLink } from '../utils/formatters';
+import { handleImageError, DEFAULT_VEHICLE_IMAGE } from '../utils/imageUtils';
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -80,8 +81,10 @@ export const VehicleCard: React.FC<VehicleCardProps> = ({
       {/* Vehicle Media Box */}
       <div className="relative h-52 sm:h-56 overflow-hidden bg-[#050505] cursor-pointer" onClick={() => onSelect(vehicle)}>
         <img
-          src={vehicle.images[0] || 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80'}
+          src={vehicle.images?.[0] || DEFAULT_VEHICLE_IMAGE}
           alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+          referrerPolicy="no-referrer"
+          onError={handleImageError}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />

@@ -1,0 +1,82 @@
+{
+  "entities": {
+    "Vehicle": {
+      "title": "Vehicle",
+      "description": "Automotive vehicle unit cataloged in Tema or China export yard",
+      "type": "object",
+      "properties": {
+        "stockId": { "type": "string", "description": "Stock tracking ID e.g. TA-2024-001", "maxLength": 64 },
+        "make": { "type": "string", "description": "Vehicle make e.g. Toyota, BYD", "maxLength": 64 },
+        "model": { "type": "string", "description": "Vehicle model e.g. RAV4", "maxLength": 64 },
+        "year": { "type": "integer", "description": "Year of manufacture" },
+        "trim": { "type": "string", "description": "Trim / edition", "maxLength": 128 },
+        "type": { "type": "string", "description": "Vehicle body category", "enum": ["SUV", "SEDAN", "PICKUP", "TRUCK", "VAN", "LUXURY", "EV"] },
+        "priceGhs": { "type": "number", "description": "Price in GHS" },
+        "priceUsd": { "type": "number", "description": "Price in USD" },
+        "mileageKm": { "type": "integer", "description": "Odometer reading in KM" },
+        "condition": { "type": "string", "enum": ["NEW", "USED"] },
+        "fuel": { "type": "string", "enum": ["PETROL", "DIESEL", "HYBRID", "ELECTRIC"] },
+        "transmission": { "type": "string", "enum": ["AUTOMATIC", "MANUAL"] },
+        "drivetrain": { "type": "string", "enum": ["FWD", "RWD", "AWD", "4WD"] },
+        "color": { "type": "string", "maxLength": 64 },
+        "engine": { "type": "string", "maxLength": 128 },
+        "location": { "type": "string", "enum": ["GHANA", "CHINA EXPORT"] },
+        "status": { "type": "string", "enum": ["AVAILABLE", "JUST ARRIVED", "RESERVED", "SOLD", "COMING SOON"] },
+        "featured": { "type": "boolean" },
+        "priceOnRequest": { "type": "boolean" },
+        "images": { "type": "array", "description": "Image URLs" },
+        "features": { "type": "array", "description": "Feature strings" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["stockId", "make", "model", "year", "type", "priceGhs", "priceUsd", "location", "status"]
+    },
+    "SourcingRequest": {
+      "title": "SourcingRequest",
+      "description": "Dealer sourcing request for custom vehicle batch",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "vehicleType": { "type": "string", "maxLength": 64 },
+        "targetBudgetUsd": { "type": "number" },
+        "preferredLocation": { "type": "string", "enum": ["GHANA", "CHINA EXPORT"] },
+        "additionalNotes": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["PENDING", "PROCESSING", "FULFILLED"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["fullName", "phone", "vehicleType"]
+    },
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "Wholesale price quote inquiry",
+      "type": "object",
+      "properties": {
+        "vehicleId": { "type": "string", "maxLength": 128 },
+        "vehicleStockId": { "type": "string", "maxLength": 64 },
+        "fullName": { "type": "string", "maxLength": 128 },
+        "companyName": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 32 },
+        "email": { "type": "string", "maxLength": 128 },
+        "quantityUnits": { "type": "integer" },
+        "status": { "type": "string", "enum": ["NEW", "CONTACTED", "CLOSED"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["vehicleStockId", "fullName", "phone"]
+    }
+  },
+  "firestore": {
+    "/vehicles/{vehicleId}": {
+      "schema": "Vehicle",
+      "description": "Catalog of vehicles available or sold"
+    },
+    "/sourcingRequests/{requestId}": {
+      "schema": "SourcingRequest",
+      "description": "Sourcing submissions from dealers"
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": "Enquiry",
+      "description": "Wholesale quote enquiries"
+    }
+  }
+}

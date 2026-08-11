@@ -499,5 +499,415 @@ export const initialVehicles: Vehicle[] = [
     },
     createdAt: '2026-08-10T10:00:00Z',
     updatedAt: '2026-08-10T10:00:00Z'
+  },
+  {
+    id: 'veh-013',
+    stockId: 'TA-2024-013',
+    make: 'Hyundai',
+    model: 'Tucson',
+    year: 2024,
+    trim: '2.0L Executive AWD SmartSense',
+    type: 'SUV',
+    priceGhs: 380000,
+    priceUsd: 28200,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Phantom Black Metallic',
+    engine: '2.0L MPi 4-Cylinder (156 HP)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      '10.25-inch Touchscreen Infotainment',
+      'Smart Key with Push Button Start',
+      'Forward Collision Avoidance Assist',
+      'Wireless Charging Pad',
+      'Drive Mode Select (Eco/Sport/Smart)'
+    ],
+    insight: {
+      bestSuitedFor: 'Daily urban executive commuting and family weekend road trips.',
+      conditionSummary: 'Brand new 2024 specification staged at Tema Golf City Yard.',
+      availabilityTimeline: 'Available immediately for inspection and drive away at Tema Yard.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'Consistent liquidity and high resale retention across Accra.'
+    },
+    createdAt: '2026-08-11T08:00:00Z',
+    updatedAt: '2026-08-11T08:00:00Z'
+  },
+  {
+    id: 'veh-014',
+    stockId: 'TA-2024-014',
+    make: 'Ford',
+    model: 'Ranger',
+    year: 2024,
+    trim: '2.0L Bi-Turbo Diesel Wildtrak 4x4',
+    type: 'PICKUP',
+    priceGhs: 580000,
+    priceUsd: 43000,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'DIESEL',
+    transmission: 'AUTOMATIC',
+    drivetrain: '4WD',
+    color: 'Cyber Orange Metallic',
+    engine: '2.0L Bi-Turbo EcoBlue Diesel (210 HP, 500 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'SYNC 4A 12-inch Vertical Screen',
+      'Terrain Management System',
+      '360-Degree Camera System',
+      'Power Roller Shutter',
+      'Zone Lighting System'
+    ],
+    insight: {
+      bestSuitedFor: 'Off-road exploration, corporate fleet management, and rugged haulage.',
+      conditionSummary: 'Brand new 0km unit at China Export Yard.',
+      availabilityTimeline: 'Container or RoRo shipping available inside 18 days to Tema.',
+      dealerSuitabilityIndex: 'EXCELLENT',
+      resalePotential: 'High demand among construction contractors and mining firms.'
+    },
+    createdAt: '2026-08-11T08:30:00Z',
+    updatedAt: '2026-08-11T08:30:00Z'
+  },
+  {
+    id: 'veh-015',
+    stockId: 'TA-2024-015',
+    make: 'Jetour',
+    model: 'Dashing',
+    year: 2024,
+    trim: '1.6T 7DCT Luxury Edition',
+    type: 'SUV',
+    priceGhs: 325000,
+    priceUsd: 24000,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'FWD',
+    color: 'Space Gray',
+    engine: '1.6L TGDI High Output Turbo (197 HP)',
+    location: 'CHINA EXPORT',
+    status: 'JUST ARRIVED',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      '15.6-inch Ultra-Thin Center Display',
+      'Hidden Flush Door Handles',
+      'Panoramic Glass Roof',
+      '540-Degree Transparent Chassis Camera',
+      'Wireless Fast Charging Pad'
+    ],
+    insight: {
+      bestSuitedFor: 'Tech-focused drivers seeking high luxury aesthetics at an entry wholesale cost.',
+      conditionSummary: 'Just cataloged at China Export Base facility.',
+      availabilityTimeline: 'Ready for immediate export slot booking.',
+      dealerSuitabilityIndex: 'VERY HIGH',
+      resalePotential: 'Extremely popular new entry model in West African cities.'
+    },
+    createdAt: '2026-08-11T09:00:00Z',
+    updatedAt: '2026-08-11T09:00:00Z'
+  },
+  {
+    id: 'veh-016',
+    stockId: 'TA-2024-016',
+    make: 'Kia',
+    model: 'Sportage',
+    year: 2024,
+    trim: '1.6T EX Line AWD Curved Screen',
+    type: 'SUV',
+    priceGhs: 410000,
+    priceUsd: 30300,
+    mileageKm: 11200,
+    condition: 'USED',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Gravity Gray',
+    engine: '1.6L Turbo Gasoline Direct Injection (177 HP)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Dual 12.3-inch Panoramic Curved Displays',
+      'Harman Kardon Premium Sound',
+      'Blind-Spot View Monitor',
+      'Ventilated Front Seats',
+      'Smart Power Tailgate'
+    ],
+    insight: {
+      bestSuitedFor: 'Modern urban commuters and ride-hailing fleet owners.',
+      conditionSummary: 'Verified immaculate condition held at Tema Yard.',
+      availabilityTimeline: 'Immediate handover at Tema Golf City Yard.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'High market liquidity and swift sales cycle.'
+    },
+    createdAt: '2026-08-11T09:15:00Z',
+    updatedAt: '2026-08-11T09:15:00Z'
+  },
+  {
+    id: 'veh-017',
+    stockId: 'TA-2024-017',
+    make: 'Toyota',
+    model: 'Hilux Revo',
+    year: 2024,
+    trim: '2.8L GD-6 4x4 Double Cab Rocco',
+    type: 'PICKUP',
+    priceGhs: 620000,
+    priceUsd: 46000,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'DIESEL',
+    transmission: 'AUTOMATIC',
+    drivetrain: '4WD',
+    color: 'Super White II',
+    engine: '2.8L 1GD-FTV Turbo Diesel (201 HP, 500 Nm)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Heavy Duty Rear Differential Lock',
+      'JBL Premium Audio System',
+      'Safety Sense Collision Warning',
+      'Rocco Sport Bar & Bedliner',
+      'All-Terrain Offroad Suspension'
+    ],
+    insight: {
+      bestSuitedFor: 'Heavy industry logistics, security escort fleets, and agricultural estates.',
+      conditionSummary: '0km factory fresh unit staged at Tema Yard.',
+      availabilityTimeline: 'Immediate commercial delivery available.',
+      dealerSuitabilityIndex: 'EXCELLENT',
+      resalePotential: 'Unbeatable resale value retention in sub-Saharan Africa.'
+    },
+    createdAt: '2026-08-11T09:30:00Z',
+    updatedAt: '2026-08-11T09:30:00Z'
+  },
+  {
+    id: 'veh-018',
+    stockId: 'TA-2024-018',
+    make: 'GWM',
+    model: 'Tank 300',
+    year: 2024,
+    trim: '2.0T Off-Road Conquest 8AT 4WD',
+    type: 'SUV',
+    priceGhs: 490000,
+    priceUsd: 36300,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: '4WD',
+    color: 'Dune Orange',
+    engine: '2.0L Turbocharged Gasoline (224 HP, 387 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Front & Rear Electronic Differential Locks',
+      'Crawl Control & Tank Turn System',
+      'Infinity 9-Speaker Audio System',
+      '12.3-inch Dual Screen Layout',
+      '33-degree Approach Angle'
+    ],
+    insight: {
+      bestSuitedFor: 'Off-road enthusiasts, luxury adventure seekers, and executive transport.',
+      conditionSummary: 'Brand new stock ready at China Export Yard.',
+      availabilityTimeline: 'Shipping slot confirmed within 5 business days.',
+      dealerSuitabilityIndex: 'PRIME DEMAND',
+      resalePotential: 'Massive trend-setting luxury SUV popularity.'
+    },
+    createdAt: '2026-08-11T09:45:00Z',
+    updatedAt: '2026-08-11T09:45:00Z'
+  },
+  {
+    id: 'veh-019',
+    stockId: 'TA-2024-019',
+    make: 'BMW',
+    model: 'X5',
+    year: 2024,
+    trim: 'xDrive40i M Sport Mild Hybrid',
+    type: 'LUXURY',
+    priceGhs: 1580000,
+    priceUsd: 117000,
+    mileageKm: 3200,
+    condition: 'USED',
+    fuel: 'HYBRID',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Carbon Black Metallic',
+    engine: '3.0L B58 Inline-6 TwinPower Turbo (375 HP)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'M Sport Package & 22-inch Light Alloy Wheels',
+      'BMW Curved Display with iDrive 8.5',
+      'Sky Lounge Panoramic Glass Roof',
+      'Harman Kardon Surround Sound System',
+      'Adaptive M Suspension'
+    ],
+    insight: {
+      bestSuitedFor: 'C-Suite executives, diplomatic transport, and luxury enthusiasts.',
+      conditionSummary: 'Barely driven 3,200km specimen in pristine condition at Tema facility.',
+      availabilityTimeline: 'Immediate transfer at Tema Yard.',
+      dealerSuitabilityIndex: 'VERY HIGH',
+      resalePotential: 'Top tier prestige luxury status.'
+    },
+    createdAt: '2026-08-11T10:00:00Z',
+    updatedAt: '2026-08-11T10:00:00Z'
+  },
+  {
+    id: 'veh-020',
+    stockId: 'TA-2024-020',
+    make: 'GAC',
+    model: 'GS8',
+    year: 2024,
+    trim: '2.0T GT AWD 7-Seater Flagship',
+    type: 'SUV',
+    priceGhs: 460000,
+    priceUsd: 34000,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Emerald Green Metallic',
+    engine: '2.0L MegaWave Power Turbo (252 HP, 400 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'COMING SOON',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Alpine 10-Speaker Sound System',
+      '14.6-inch HD Touchscreen Display',
+      'Matrix LED Headlamps with Light Show',
+      'Power Fold 3rd Row Seats',
+      'AR Head-Up Display'
+    ],
+    insight: {
+      bestSuitedFor: 'Large executive families and high-end VIP transport.',
+      conditionSummary: 'Brand new unit currently in logistics staging in China.',
+      availabilityTimeline: 'Vessel departure scheduled in 10 days.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'Rapidly growing family SUV demand.'
+    },
+    createdAt: '2026-08-11T10:10:00Z',
+    updatedAt: '2026-08-11T10:10:00Z'
+  },
+  {
+    id: 'veh-021',
+    stockId: 'TA-2024-021',
+    make: 'Honda',
+    model: 'CR-V',
+    year: 2023,
+    trim: '1.5T Touring Real Time AWD',
+    type: 'SUV',
+    priceGhs: 395000,
+    priceUsd: 29200,
+    mileageKm: 16800,
+    condition: 'USED',
+    fuel: 'PETROL',
+    transmission: 'AUTOMATIC',
+    drivetrain: 'AWD',
+    color: 'Platinum White Pearl',
+    engine: '1.5L VTEC Turbocharged 4-Cylinder (190 HP)',
+    location: 'GHANA',
+    status: 'AVAILABLE',
+    featured: false,
+    images: [
+      'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      'Bose 12-Speaker Centerpoint System',
+      'Honda Sensing Safety Suite',
+      'Hands-Free Access Power Tailgate',
+      'Leather Trimmed Interior',
+      'Wireless Apple CarPlay'
+    ],
+    insight: {
+      bestSuitedFor: 'Reliable urban family transport with exceptional resale stability.',
+      conditionSummary: 'Serviced and certified at Tema Golf City Yard.',
+      availabilityTimeline: 'Available immediately for purchase.',
+      dealerSuitabilityIndex: 'HIGH',
+      resalePotential: 'Proven high liquidity across West Africa.'
+    },
+    createdAt: '2026-08-11T10:15:00Z',
+    updatedAt: '2026-08-11T10:15:00Z'
+  },
+  {
+    id: 'veh-022',
+    stockId: 'TA-2024-022',
+    make: 'FAW',
+    model: 'Jiefang J6P 380',
+    year: 2024,
+    trim: '380HP 6x4 Heavy Duty Tractor Truck Head',
+    type: 'TRUCK',
+    priceGhs: 790000,
+    priceUsd: 58500,
+    mileageKm: 0,
+    condition: 'NEW',
+    fuel: 'DIESEL',
+    transmission: 'MANUAL',
+    drivetrain: 'RWD',
+    color: 'Industrial Yellow / White',
+    engine: 'FAWDE 11L Diesel Engine (380 HP, 1750 Nm)',
+    location: 'CHINA EXPORT',
+    status: 'AVAILABLE',
+    featured: true,
+    images: [
+      'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1200&q=80'
+    ],
+    features: [
+      '50-Tonne Fifth Wheel Towing Capacity',
+      'FAST 12-Speed Heavy Duty Gearbox',
+      'Double Sleeper High Roof Cab',
+      'Air Suspension Driver Seat',
+      'Dual Fuel Tanks (800L Total)'
+    ],
+    insight: {
+      bestSuitedFor: 'Cross-border haulage (Ghana to Burkina Faso/Mali), port container transport.',
+      conditionSummary: 'Brand new industrial tractor unit at China Export Yard.',
+      availabilityTimeline: 'Direct shipment to Tema Port inside 22 days.',
+      dealerSuitabilityIndex: 'VERY HIGH',
+      resalePotential: 'Essential asset for logistics & haulage firms.'
+    },
+    createdAt: '2026-08-11T10:20:00Z',
+    updatedAt: '2026-08-11T10:20:00Z'
   }
 ];
